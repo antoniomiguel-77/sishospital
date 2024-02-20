@@ -46,7 +46,6 @@
                             <th>Acesso</th>
                             <th>Conta</th>
                             <th>Estado</th>
-                            <th>Ação</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -72,10 +71,7 @@
                                         <span  class="badge badge-danger">Offline</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <button type="button" wire:click="editar({{$item->id}})" data-bs-toggle="modal" data-bs-target="#especialidade" class="btn btn-sm btn-outline-primary"> <i class="fa fa-pen"></i></button>
-                                        <button type="button" wire:click="confirmarExclusao({{$item->id}})" class="btn btn-sm btn-outline-danger"> <i class="fa fa-trash"></i></button>
-                                    </td>
+                                 
                                 </tr>
                                 @endforeach
                             @else

@@ -5,6 +5,7 @@ namespace App\Livewire\Medico;
 use App\Models\Medico;
 use App\Models\Triagem;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 class PacienteAguardandoAtendimento extends Component
@@ -19,7 +20,7 @@ class PacienteAguardandoAtendimento extends Component
     public function render()
     {
         return view('livewire.medico.paciente-aguardando-atendimento',[
-            'entradas'=>$this->listarPacientesAguardandoAtendimento($this->pesquisar,$this->mostrar,$this->dataInicial,$this->dataFinal)
+            'atendimentoPendentes'=>$this->listarPacientesAguardandoAtendimento($this->pesquisar,$this->mostrar,$this->dataInicial,$this->dataFinal)
 
         ])->layout('layouts.medico.app');
     }
@@ -29,14 +30,18 @@ class PacienteAguardandoAtendimento extends Component
     public function listarPacientesAguardandoAtendimento($pesquisar,$mostrar,$dataInicial,$dataFinal)
     {
         try {
+                        
             $inicial = Carbon::parse($dataInicial)->format('Y-m-d').' 00:00:00';
             $final = Carbon::parse($dataFinal)->format('Y-m-d').' 23:59:59';
             $medico = Medico::find(auth()->user()->medico->id ?? '1');
+
+ 
+
            
             if ($this->pesquisar != null) {
                 return Triagem::join('pacientes','triagems.paciente_id','=','pacientes.id')
-                ->select('triagems.id','pacientes.nomeCompleto','pacientes.idade','triagems.dataEntrada','triagems.horaEntrada','triagems.acompanhante','triagems.telefone','triagems.escalaDeManchester')
-                ->whereBetween('triagems.created_at',[$inicial,$final])
+                ->select('triagems.id','pacientes.nomeCompleto','pacientes.idade','triagems.proveniencia','triagems.dataEntrada','triagems.horaEntrada','triagems.acompanhante','triagems.telefone','triagems.escalaDeManchester')
+                ->whereDate('triagems.created_at', '=', DB::raw('curdate()'))
                 ->where('pacientes.nomeCompleto','%'.$pesquisar.'%')
                 ->where('triagems.encaminharPara','=',$medico->departamento->descricao)
                 ->where('triagems.atendido','=','Não')
@@ -46,8 +51,8 @@ class PacienteAguardandoAtendimento extends Component
             }else{
 
                 return Triagem::join('pacientes','triagems.paciente_id','=','pacientes.id')
-                ->select('triagems.id','pacientes.nomeCompleto','pacientes.idade','triagems.dataEntrada','triagems.horaEntrada','triagems.acompanhante','triagems.telefone','triagems.escalaDeManchester')
-                ->whereBetween('triagems.created_at',[$inicial,$final])
+                ->select('triagems.id','pacientes.nomeCompleto','pacientes.idade','triagems.proveniencia','triagems.dataEntrada','triagems.horaEntrada','triagems.acompanhante','triagems.telefone','triagems.escalaDeManchester')
+                ->whereDate('triagems.created_at', '=', DB::raw('curdate()'))
                 ->where('triagems.encaminharPara','=',$medico->departamento->descricao)
                 ->where('triagems.atendido','=','Não')
                 ->orderBy('triagems.escalaDeManchester','asc')

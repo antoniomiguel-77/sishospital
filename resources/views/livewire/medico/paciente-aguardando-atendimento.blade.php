@@ -50,9 +50,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($entradas) and $entradas->count() > 0)
-                            @foreach ($entradas as $item)
-                            <tr>
+                      
+                            @if (isset($atendimentoPendentes) and $atendimentoPendentes->count() > 0)
+                            @foreach ($atendimentoPendentes as $item)
+                            <tr style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#menu">
                                 <td>{{$item->nomeCompleto}}</td>
                                 <td>{{$item->idade}}</td>
                                 <td>{{$item->dataEntrada}}</td>
@@ -94,7 +95,7 @@
 
         
     </div>
-    {{-- @include('livewire.enfermeiro.modal.triagem') --}}
+ @include('livewire.medico.modal.menu')
 </div>
 <script>
     document.addEventListener('fecharModal', () => {
