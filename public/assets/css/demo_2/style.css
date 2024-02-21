@@ -15562,3 +15562,11 @@ dl {
     right: 0; } }
 
 /*# sourceMappingURL=style.css.map */
+
+
+.btn-hover:hover
+{
+  color:#ffff !important;
+  transition: .5s all !important;
+  font-weight: 900 !important;
+}

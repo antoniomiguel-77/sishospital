@@ -15,9 +15,11 @@ use App\Livewire\Enfermeiro\{
     PacienteAguardandoTriagem,
 };
 use App\Livewire\Medico\{
+    AguardandoDecisaoMedica,
     ObservacaoMedica,
     PacienteAguardandoAtendimento,
 };
+use App\Models\Triagem;
 use Illuminate\Support\Facades\Route;
 
 #Administrador
@@ -33,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 
 #Medicos
     Route::get('/painel/medico/paciente-aguardando-atendimento', PacienteAguardandoAtendimento::class)->name('sis.medico.paciente-atendimento');
-    Route::get('/painel/medico/observacao-medica', ObservacaoMedica::class)->name('sis.medico.observacao.medica');
+    Route::get('/painel/medico/aguardando-decisao-medica', AguardandoDecisaoMedica::class)->name('sis.medico.aguardando.decisao.medica');
 #Medicos
 
 #enfermeiros
@@ -44,3 +46,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('/painel/atendente/banco-de-urgencia', EntradaBancoUrgenciaComponent::class)->name('sis.atend.banco-de-urgencia');
     Route::get('/painel/atendente/pacientes', PacienteComponent::class)->name('sis.atend.paciente');
 #Atendente
+
+Route::get('/test', function(){
+    dd(Triagem::with('paciente')->whereDate('created_at',today())->get());
+});

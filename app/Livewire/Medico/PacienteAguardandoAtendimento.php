@@ -31,31 +31,28 @@ class PacienteAguardandoAtendimento extends Component
     {
         try {
                         
-            $inicial = Carbon::parse($dataInicial)->format('Y-m-d').' 00:00:00';
-            $final = Carbon::parse($dataFinal)->format('Y-m-d').' 23:59:59';
+            
             $medico = Medico::find(auth()->user()->medico->id ?? '1');
 
  
 
            
             if ($this->pesquisar != null) {
-                return Triagem::join('pacientes','triagems.paciente_id','=','pacientes.id')
-                ->select('triagems.id','pacientes.nomeCompleto','pacientes.idade','triagems.proveniencia','triagems.dataEntrada','triagems.horaEntrada','triagems.acompanhante','triagems.telefone','triagems.escalaDeManchester')
-                ->whereDate('triagems.created_at', '=', DB::raw('curdate()'))
-                ->where('pacientes.nomeCompleto','%'.$pesquisar.'%')
-                ->where('triagems.encaminharPara','=',$medico->departamento->descricao)
-                ->where('triagems.atendido','=','Não')
-                ->orderBy('triagems.escalaDeManchester','asc')
+                return Triagem::with('paciente')
+                ->whereDate('created_at', '=', DB::raw('curdate()'))
+                ->where('nomeCompleto','%'.$pesquisar.'%')
+                ->where('encaminharPara','=',$medico->departamento->descricao)
+                ->where('atendido','=','Não')
+                ->orderBy('escalaDeManchester','asc')
                 ->limit($mostrar)
                 ->get();
             }else{
 
-                return Triagem::join('pacientes','triagems.paciente_id','=','pacientes.id')
-                ->select('triagems.id','pacientes.nomeCompleto','pacientes.idade','triagems.proveniencia','triagems.dataEntrada','triagems.horaEntrada','triagems.acompanhante','triagems.telefone','triagems.escalaDeManchester')
-                ->whereDate('triagems.created_at', '=', DB::raw('curdate()'))
-                ->where('triagems.encaminharPara','=',$medico->departamento->descricao)
-                ->where('triagems.atendido','=','Não')
-                ->orderBy('triagems.escalaDeManchester','asc')
+                return Triagem::with('paciente')
+                ->whereDate('created_at', '=', DB::raw('curdate()'))
+                ->where('encaminharPara','=',$medico->departamento->descricao)
+                ->where('atendido','=','Não')
+                ->orderBy('escalaDeManchester','asc')
                 ->limit($mostrar)
                 ->get();
             }

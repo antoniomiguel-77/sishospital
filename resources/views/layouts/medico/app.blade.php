@@ -65,55 +65,23 @@
             <nav class="bottom-navbar">
               <div class="container">
                 <ul class="nav page-navigation">
-                 
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                    
-                      <i class="fa fa-cog menu-icon"></i>
-                      <span class="menu-title">Decisões Médicas</span>
-                      <i class="menu-arrow"></i>
-                    </a>
-                    <div class="submenu">
-                      <ul class="submenu-item">
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.medico.observacao.medica')}}">Observação Médica</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.admin.instituicao')}}"> Prescição Médica</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.admin.instituicao')}}">Pedido de Exame</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.admin.instituicao')}}">Diário Clinico do Paciente</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.admin.instituicao')}}">Receita Médica</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.admin.instituicao')}}">Observação por Especialidade</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.admin.instituicao')}}">Registrar Internamento</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.admin.instituicao')}}">Registrar Alta</a>
-                        </li>
-                      
-                        <li class="nav-item">
-                          <a class="nav-link" href="{{route('sis.admin.instituicao')}}">Registrar Falecimento</a>
-                        </li>
- 
-                      
-                      </ul>
-                    </div>
-                  </li>
+              
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.medico.paciente-atendimento')}}">
              
                       <i class="fa fa-gauge menu-icon"></i>
                       <span class="menu-title">
                         Atendimentos Pendentes
+                        <span class="badge badge-danger">0</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{route('sis.medico.aguardando.decisao.medica')}}">
+             
+                      <i class="fa fa-gauge menu-icon"></i>
+                      <span class="menu-title">
+                        Decisões Medicas Pendentes
                         <span class="badge badge-danger">0</span>
                       </span>
                     </a>

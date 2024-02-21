@@ -29,7 +29,8 @@ class Triagem extends Model
         'notaDeTriagem',
         'encaminharPara',
         'telefone',
-        'enfermeiro_id'
+        'enfermeiro_id',
+        'estado'
   
     ];
 
@@ -41,4 +42,5 @@ class Triagem extends Model
     {
         return $this->belongsTo(Enfermeiro::class, 'enfermeiro_id', 'id');
     }
+    
 }

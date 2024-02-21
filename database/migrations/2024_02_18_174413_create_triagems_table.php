@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('proveniencia');
             $table->string('encaminharPara')->nullable();
             $table->string('telefone');
+            $table->boolean('estado')->default(0);
             $table->enum('atendido',['Sim','Não'])->default('Não')->nullable();
             $table->timestamps();
         });

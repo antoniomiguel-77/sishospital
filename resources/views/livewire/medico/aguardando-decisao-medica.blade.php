@@ -4,7 +4,7 @@
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
             <div class="header-left">
-                PACIENTES AGUARDANDO ATENDIMENTO
+                PACIENTES AGUARDANDO DECISÃO MEDICA
             </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">
@@ -97,8 +97,7 @@
 
         
     </div>
-    @include('livewire.medico.modal.menu')
-    @include('livewire.medico.modal.observacaoMedica')
+ @include('livewire.medico.modal.menu')
 </div>
 <script>
     document.addEventListener('fecharModal', () => {
