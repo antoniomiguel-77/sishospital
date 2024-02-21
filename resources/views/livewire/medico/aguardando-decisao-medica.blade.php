@@ -99,11 +99,16 @@
           </div>
        
         </div>
-
-        
-         @include('livewire.medico.modal.detalhesObservacaoMedica') 
+            @include('livewire.medico.modal.detalhesObservacaoMedica') 
+            @include('livewire.medico.modal.diarioClinico') 
+            @include('livewire.medico.modal.internamento') 
+            @include('livewire.medico.modal.pedidoDeExame') 
+            @include('livewire.medico.modal.prescricaoMedica') 
+            @include('livewire.medico.modal.registroDeAlta') 
+            @include('livewire.medico.modal.registroDeFalecido') 
+            @include('livewire.medico.modal.registroDeTransferencia') 
     </div>
- @include('livewire.medico.modal.menu')
+            @include('livewire.medico.modal.menu')
 </div>
 <script>
     document.addEventListener('fecharModal', () => {
