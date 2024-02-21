@@ -20,7 +20,6 @@ return new class extends Migration
             $table->longText('diagnosticoDeEntrada');
             $table->date('dataObservacao');
             $table->time('horaObservacao');
-            $table->time('horaObservacao');
             $table->longText('observacaoSumaria');
             $table->timestamps();
         });

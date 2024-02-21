@@ -3,8 +3,9 @@
 namespace App\Livewire\Medico;
 
 use App\Models\Medico;
-use App\Models\Triagem;
+use App\Models\{Triagem,ObservacaoMedica as ModelObservacaoMedica};
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -16,7 +17,7 @@ class PacienteAguardandoAtendimento extends Component
     $horaEntrada,$pulso,$peso,$respiracao,$triagemRealizada,$escalaDeManchester,
     $temperatura,$tensaoDiastolica,$tensaoSistolica,$enfermeiro,$queixasPrincipais,
     $observacaoSumaria,$diagnosticoEntrada,$assistenciaPreHospitalar;
-    public $listeners = ['fecharModal'];
+    public $listeners = ['fecharModal'=>'fecharModal','registrarObservacaoMedica'=>'registrarObservacaoMedica'];
     public function render()
     {
         return view('livewire.medico.paciente-aguardando-atendimento',[
@@ -35,8 +36,8 @@ class PacienteAguardandoAtendimento extends Component
             $medico = Medico::find(auth()->user()->medico->id ?? '1');
 
  
-
-           
+        if($medico){
+    
             if ($this->pesquisar != null) {
                 return Triagem::with('paciente')
                 ->whereDate('created_at', '=', DB::raw('curdate()'))
@@ -56,9 +57,9 @@ class PacienteAguardandoAtendimento extends Component
                 ->limit($mostrar)
                 ->get();
             }
-
+        }
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+     
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -68,53 +69,28 @@ class PacienteAguardandoAtendimento extends Component
         }
     }
 
-    public function confirmarMarcarComoAtendido($id){
-        try{
-            $this->triagemId = $id;
-            $this->alert('question', 'TEM A CERTEZA', [
-                'icon' => 'warning',
-                'position' => 'center',
-                'toast' => false,
-                'timer' => null,
-                'text' => 'Deseja Realmente marcar este atendimento como feito? Não pode reverter está ação.',
-                'showConfirmButton' => true,
-                'showCancelButton' => true,
-                'cancelButtonText' => 'Cancelar',
-                'confirmButtonText' => 'Marcar',
-                'confirmButtonColor' => '#3085d6',
-                'cancelButtonColor' => '#d33',
-                'onConfirmed' => 'marcarComoAtendido' 
-            ]);
-        }catch(\Throwable $ex){
-            $this->alert('error', 'FALHA', [
-                'position' => 'center',
-                'toast' => false,
-                'timer' => 2000,
-                'text'=>'Falha ao realizar operação'
-
-            ]);
-        }
-    }
+   
     public function pegarDadosDaTriagem($id)
     {
         try {
             $triagem = Triagem::find($id);
-            $this->paciente = $triagem->paciente->nomeCompleto;
+        
+            $this->paciente = $triagem->paciente->nomeCompleto ?? 'NÃO DEFINIDO';
             $this->triagemId = $triagem->id;
-            $this->acompanhante = $triagem->acompanhante;
-            $this->telefone = $triagem->telefone;
-            $this->idade = $triagem->paciente->idade;
-            $this->genero = $triagem->paciente->genero;
-            $this->dataEntrada = $triagem->dataEntrada;
-            $this->horaEntrada = $triagem->pulso;
-            $this->pulso = $triagem->horaEntrada;
+            $this->acompanhante = $triagem->acompanhante ?? 'NÃO DEFINIDO';
+            $this->telefone = $triagem->telefone ?? 'NÃO DEFINIDO';
+            $this->idade = $triagem->paciente->idade ?? 'NÃO DEFINIDO';
+            $this->genero = $triagem->paciente->genero ?? 'NÃO DEFINIDO';
+            $this->dataEntrada = $triagem->dataEntrada ?? 'NÃO DEFINIDO';
+            $this->horaEntrada = $triagem->pulso ?? 'NÃO DEFINIDO';
+            $this->pulso = $triagem->pulso;
             $this->peso = $triagem->peso;
-            $this->respiracao = $triagem->respiracao;
-            $this->temperatura = $triagem->temperatura;
-            $this->tensaoDiastolica = $triagem->tensaoDiastolica;
-            $this->tensaoSistolica = $triagem->tensaoSistolica;
-            $this->escalaDeManchester = $triagem->escalaDeManchester;
-            $this->enfermeiro = $triagem->enfermeiro->nomeCompleto;
+            $this->respiracao = $triagem->respiracao ?? 'NÃO DEFINIDO';
+            $this->temperatura = $triagem->temperatura ?? 'NÃO DEFINIDO';
+            $this->tensaoDiastolica = $triagem->tensaoDiastolica ?? 'NÃO DEFINIDO';
+            $this->tensaoSistolica = $triagem->tensaoSistolica ?? 'NÃO DEFINIDO';
+            $this->escalaDeManchester = $triagem->escalaDeManchester ?? 'NÃO DEFINIDO';
+            $this->enfermeiro = $triagem->enfermeiro->nomeCompleto ?? 'NÃO DEFINIDO';
       
            
 
@@ -122,7 +98,7 @@ class PacienteAguardandoAtendimento extends Component
 
             
         } catch (\Throwable $th) {
-           
+             
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -131,56 +107,7 @@ class PacienteAguardandoAtendimento extends Component
             ]);
         }
         }
-    // public function registrarObservacaoMedica()
-    // {
-    //     $this->validate(
-    //     ['queixasPrincipais'=>'required','diagnosticoEntrada'=>'required','assistenciaPreHospitalar'=>'required','observacaoSumaria'=>'required'],
-    //     ['queixasPrincipais.required'=>'Obrigatório','diagnosticoEntrada.required'=>'Obrigatório','assistenciaPreHospitalar.required'=>'Obrigatório','observacaoSumaria.required'=>'Obrigatório']);
-       
-    //     DB::beginTransaction();
-    //     try {
-
-    //         // dd($this->queixasPrincipais);
-    //         $triagem = Triagem::find($this->triagemId);
-
-    //         ObservacaoMedica::create([
-    //             'triagem_id'=>$this->triagemId,
-    //             'queixasPrincipais'=>$this->queixasPrincipais,
-    //             'assistenciaPreHospitalar'=>$this->assistenciaPreHospitalar,
-    //             'diagnosticoDeEntrada'=>$this->diagnosticoEntrada,
-    //             'dataObservacao'=>date('Y-m-d'),
-    //             'horaObservacao'=>date('H:i'),
-    //             'observacaoSumaria'=>$this->observacaoSumaria,
-    //         ]);
-
-    //         $triagem->atendido = 'Sim';
-    //         $triagem->save();
-
-    //         $this->alert('success', 'SUCESSO', [
-    //             'position' => 'top-end',
-    //             'toast' => true,
-    //             'timer' => 2000,
-    //             'text'=>'Operação Realizada com sucesso'
-    //         ]);
-
-    //             $this->limparCampos();
-    //             $this->dispatch('fecharModal');
-           
-
-           
-
-    //         DB::commit();
-    //     } catch (\Throwable $th) {
-    //         dd($th->getMessage());
-    //        DB::rollback();
-    //         $this->alert('error', 'FALHA', [
-    //             'position' => 'center',
-    //             'toast' => false,
-    //             'timer' => 2000,
-    //             'text' => 'Falha ao realizar operação',
-    //         ]);
-    //     }
-    //     }
+     
 
         public function limparCampos()
         {
@@ -214,4 +141,81 @@ class PacienteAguardandoAtendimento extends Component
                 ]);
             }
         }
+
+
+        public function registrarObservacaoMedica()
+        {
+            $this->validate(
+            ['queixasPrincipais'=>'required','diagnosticoEntrada'=>'required','assistenciaPreHospitalar'=>'required','observacaoSumaria'=>'required'],
+            ['queixasPrincipais.required'=>'Obrigatório','diagnosticoEntrada.required'=>'Obrigatório','assistenciaPreHospitalar.required'=>'Obrigatório','observacaoSumaria.required'=>'Obrigatório']);
+        
+            DB::beginTransaction();
+            try {
+              
+                $triagem = Triagem::find($this->triagemId);
+           
+
+                ModelObservacaoMedica::create([
+                    'triagem_id'=>$this->triagemId,
+                    'queixasPrincipais'=>$this->queixasPrincipais,
+                    'assistenciaPreHospitalar'=>$this->assistenciaPreHospitalar,
+                    'diagnosticoDeEntrada'=>$this->diagnosticoEntrada,
+                    'dataObservacao'=>date('Y-m-d'),
+                    'horaObservacao'=>date('H:i'),
+                    'observacaoSumaria'=>$this->observacaoSumaria,
+                ]);
+   
+               $triagem->atendido = 'Sim';
+               $triagem->save();
+   
+               $this->alert('success', 'SUCESSO', [
+                   'position' => 'top-end',
+                   'toast' => true,
+                   'timer' => 2000,
+                   'text'=>'Operação Realizada com sucesso'
+               ]);
+   
+                    $this->limparCampos();
+                    $this->dispatch('fecharModal');
+              
+                DB::commit();
+            } catch (\Throwable $th) {
+                dd($th->getMessage());
+               DB::rollback();
+                $this->alert('error', 'FALHA', [
+                    'position' => 'center',
+                    'toast' => false,
+                    'timer' => 2000,
+                    'text' => 'Falha ao realizar operação',
+                ]);
+            }
+       }
+
+       public function confirmarRegistro(){
+        try{
+            $this->alert('question', 'AVISO', [
+                'icon' => 'warning',
+                'position' => 'center',
+                'toast' => false,
+                'timer' => null,
+                'text' => 'Deseja Realmente Registrar essa observação Médica.',
+                'showConfirmButton' => true,
+                'showCancelButton' => true,
+                'cancelButtonText' => 'Cancelar',
+                'confirmButtonText' => 'Registrar',
+                'confirmButtonColor' => '#3085d6',
+                'cancelButtonColor' => '#d33',
+                'onConfirmed' => 'registrarObservacaoMedica' 
+            ]);
+        }catch(Exception $ex){
+            $this->alert('error', 'FALHA', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text'=>'Falha ao realizar operação'
+
+            ]);
+        }
+    }
+         
 }

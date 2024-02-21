@@ -46,21 +46,22 @@
                                 <th>Acompanhante</th>
                                 <th>Telefone</th>
                                 <th>Situação</th>
+                                <th>Obs.</th>
                               
                             </tr>
                         </thead>
                         <tbody>
                       
-                            @if (isset($atendimentoPendentes) and $atendimentoPendentes->count() > 0)
-                            @foreach ($atendimentoPendentes as $item)
+                            @if (isset($decisoesPendentes) and $decisoesPendentes->count() > 0)
+                            @foreach ($decisoesPendentes as $item)
                             <tr style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#menu">
-                                <td>{{$item->paciente->nomeCompleto}}</td>
+                                <td>{{$item->nomeCompleto ?? 'NÃO DEFINIDO'}}</td>
                                 <td>{{$item->idade ?? 'NÃO DEFINIDO'}}</td>
                                 <td>{{$item->dataEntrada}}</td>
                                 <td>{{$item->horaEntrada}}</td>
-                                <td>{{$item->proveniencia}}</td>
-                                <td>{{$item->acompanhante}}</td>
-                                <td>{{$item->telefone}}</td>
+                                <td>{{$item->proveniencia ?? 'NÃO DEFINIDO'}}</td>
+                                <td>{{$item->acompanhante  ?? 'NÃO DEFINIDO'}}</td>
+                                <td>{{$item->telefone  ?? 'NÃO DEFINIDO'}}</td>
                               
                                 @if ($item->escalaDeManchester == 'Emergência (Emediata)')
                                     <td><span style="background:#e5241d;color:#fff" class="badge   font-weight-bold">{{$item->escalaDeManchester }}</span></td>
@@ -73,7 +74,11 @@
                                 @elseif($item->escalaDeManchester == 'Não Urgente')
                                     <td><span style="background:#3e4999;color:#fff" class="badge   font-weight-bold">{{$item->escalaDeManchester }}</span></td>
                                 @endif
-
+                                <td>
+                                    <button wire:click='pegarObservacaoMedica({{$item->id}})' data-bs-toggle="modal" data-bs-target="#detalhesObservacaoMedica" title="Detalhes da Observação Médica" class="btn btn-outline-primary">
+                                        <i class="fa fa-list"></i>
+                                    </button>
+                                </td>
                                 
                                 
                             </tr>
@@ -96,6 +101,7 @@
         </div>
 
         
+         @include('livewire.medico.modal.detalhesObservacaoMedica') 
     </div>
  @include('livewire.medico.modal.menu')
 </div>

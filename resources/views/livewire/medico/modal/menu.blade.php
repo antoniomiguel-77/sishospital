@@ -9,10 +9,6 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <button data-bs-toggle="modal" data-bs-target="#observacaoMedica" class="btn-hover  btn btn-md btn-outline-primary text-uppercase mb-2 p-3">
-              <i class="fa fa-eye fa-1x"></i>
-                Observação Médica
-            </button>
             <button class="btn-hover  btn btn-md btn-outline-primary text-uppercase mb-2 p-3">
               <i class="fa fa-edit fa-1x"></i>
                 Prescição Médica

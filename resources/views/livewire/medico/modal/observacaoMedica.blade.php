@@ -15,7 +15,10 @@
                   <label for="paciente">Paciente</label>
                   <input type="text" class="form-control" wire:model='paciente' readonly name="paciente" id="paciente">
                 </div>
-                <div class="form-group col-md-12">
+                <input type="hidden" name="triagemId" wire:model='triagemId'>
+              
+ 
+    <div class="form-group col-md-12">
                   <label for="acompanhante">Acompanhante</label>
                   <input type="text" class="form-control" wire:model='acompanhante' readonly name="acompanhante" id="acompanhante">
                 </div>
@@ -56,27 +59,27 @@
                   <label for="tensaoSistolica">Tensão Sistólica</label>
                   <input type="text" class="form-control" wire:model='tensaoSistolica' readonly name="tensaoSistolica" id="tensaoSistolica">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="tensaoSistolica">Grau de Emergência</label>
                     @if ($escalaDeManchester == 'Emergência (Emediata)')
-                      <input type="text" style="background:#e5241d;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
+                      <input type="text" style="font-weight: 900; background:#e5241d;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
                     @elseif($escalaDeManchester == 'Urgente')
-                      <input type="text" style="background:#f49826;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
+                      <input type="text" style="font-weight: 900; background:#f49826;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
                     @elseif($escalaDeManchester == 'Emergência')
-                      <input type="text" style="background:#4cae3f;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
+                      <input type="text" style="font-weight: 900; background:#4cae3f;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
                     @elseif($escalaDeManchester == 'Pouco Urgente')
-                      <input type="text" style="background:#fecc37;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
+                      <input type="text" style="font-weight: 900; background:#fecc37;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
                     @elseif($escalaDeManchester == 'Não Urgente')
-                      <input type="text" style="background:#3e4999;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
+                      <input type="text" style="font-weight: 900; background:#3e4999;color:#fff" class="form-control" wire:model='escalaDeManchester' readonly name="tensaoSistolica" id="tensaoSistolica">
                     @endif
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                   <label for="enfermeiro">Enfermeiro Que realizou a triagem</label>
                   <input type="text" class="form-control" wire:model='enfermeiro' readonly name="enfermeiro" id="enfermeiro">
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                   <label for="queixasPrincipais">Queixas Principais</label>
-                  <textarea class="form-control" wire:model='queixasPrincipais'  name="queixasPrincipais" id="queixasPrincipais" cols="30" rows="2" placeholder="Queixas Princípais"></textarea>
+                  <textarea class="form-control" wire:model='queixasPrincipais'  name="queixasPrincipais" id="queixasPrincipais" cols="30" rows="8" placeholder="Queixas Princípais"></textarea>
                   @error('queixasPrincipais') <span class="text-danger">{{$message}}</span> @enderror
     
                 </div>

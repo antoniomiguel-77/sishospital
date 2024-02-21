@@ -3,13 +3,16 @@
 namespace App\Livewire\Medico;
 
 use App\Models\Medico;
-use App\Models\Triagem;
+use App\Models\{Triagem, ObservacaoMedica as ModelObservacaoMedica};
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class AguardandoDecisaoMedica extends Component
 {
-   public $pesquisar,$mostrar;
+   public $pesquisar,$mostrar,
+   $queixasPrincipais,$assistenciaPreHospitalar,
+   $diagnosticoDeEntrada,$dataObservacao,
+   $horaObservacao,$observacaoSumaria;
     public function render()
     {
         return view('livewire.medico.aguardando-decisao-medica',[
@@ -20,12 +23,12 @@ class AguardandoDecisaoMedica extends Component
     {
         try {
                         
-            
+             
             $medico = Medico::find(auth()->user()->medico->id ?? '1');
 
  
-
-           
+        if($medico){
+    
             if ($this->pesquisar != null) {
                 return Triagem::with('paciente')
                 ->whereDate('created_at', '=', DB::raw('curdate()'))
@@ -45,6 +48,9 @@ class AguardandoDecisaoMedica extends Component
                 ->limit($mostrar)
                 ->get();
             }
+        }
+
+           
 
         } catch (\Throwable $th) {
             dd($th->getMessage());
@@ -56,4 +62,46 @@ class AguardandoDecisaoMedica extends Component
             ]);
         }
     }
+
+
+    public function pegarObservacaoMedica($id)
+    {
+        try {
+            $observacaoMedica =  ModelObservacaoMedica::where('triagem_id',$id)->first();
+            $this->queixasPrincipais = $observacaoMedica->queixasPrincipais;
+            $this->assistenciaPreHospitalar = $observacaoMedica->assistenciaPreHospitalar;
+            $this->diagnosticoDeEntrada = $observacaoMedica->diagnosticoDeEntrada;
+            $this->dataObservacao = $observacaoMedica->dataObservacao;
+            $this->horaObservacao = $observacaoMedica->horaObservacao;
+            $this->observacaoSumaria = $observacaoMedica->observacaoSumaria;
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            $this->alert('error', 'FALHA', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text' => 'Falha ao realizar operação',
+            ]);
+        }
+    }
+
+
+    public function limparCampos(){
+        try {
+            $this->queixasPrincipais = '';
+            $this->assistenciaPreHospitalar = '';
+            $this->diagnosticoDeEntrada = '';
+            $this->dataObservacao = '';
+            $this->horaObservacao = '';
+            $this->observacaoSumaria = '';
+        } catch (\Throwable $th) {
+            $this->alert('error', 'FALHA', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text' => 'Falha ao realizar operação',
+            ]);
+        }
+    }
+ 
 }

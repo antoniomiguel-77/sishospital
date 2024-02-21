@@ -53,7 +53,7 @@
                       
                             @if (isset($atendimentoPendentes) and $atendimentoPendentes->count() > 0)
                             @foreach ($atendimentoPendentes as $item)
-                            <tr style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#menu">
+                            <tr wire:click='pegarDadosDaTriagem({{$item->id}})'  style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#observacaoMedica">
                                 <td>{{$item->paciente->nomeCompleto}}</td>
                                 <td>{{$item->idade ?? 'NÃO DEFINIDO'}}</td>
                                 <td>{{$item->dataEntrada}}</td>
@@ -97,7 +97,7 @@
 
         
     </div>
-    @include('livewire.medico.modal.menu')
+
     @include('livewire.medico.modal.observacaoMedica')
 </div>
 <script>
