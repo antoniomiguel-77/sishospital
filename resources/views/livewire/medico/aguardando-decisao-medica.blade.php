@@ -75,8 +75,11 @@
                                     <td><span style="background:#3e4999;color:#fff" class="badge   font-weight-bold">{{$item->escalaDeManchester }}</span></td>
                                 @endif
                                 <td>
-                                    <button wire:click='pegarObservacaoMedica({{$item->id}})' data-bs-toggle="modal" data-bs-target="#detalhesObservacaoMedica" title="Detalhes da Observação Médica" class="btn btn-outline-primary">
+                                    <button wire:click='pegarObservacaoMedica({{$item->id}})' data-bs-toggle="modal" data-bs-target="#detalhesObservacaoMedica" title="Detalhes da Observação Médica" class="btn btn-sm btn-outline-primary">
                                         <i class="fa fa-list"></i>
+                                    </button>
+                                    <button title="Imprimir Ficha do Paciente" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa fa-print"></i>
                                     </button>
                                 </td>
                                 

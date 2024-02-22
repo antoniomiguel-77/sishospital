@@ -4,6 +4,7 @@ namespace App\Livewire\Medico;
 
 use App\Models\Medico;
 use App\Models\{Triagem, ObservacaoMedica as ModelObservacaoMedica};
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -71,8 +72,8 @@ class AguardandoDecisaoMedica extends Component
             $this->queixasPrincipais = $observacaoMedica->queixasPrincipais;
             $this->assistenciaPreHospitalar = $observacaoMedica->assistenciaPreHospitalar;
             $this->diagnosticoDeEntrada = $observacaoMedica->diagnosticoDeEntrada;
-            $this->dataObservacao = $observacaoMedica->dataObservacao;
-            $this->horaObservacao = $observacaoMedica->horaObservacao;
+            $this->dataObservacao = Carbon::parse($observacaoMedica->dataObservacao)->format('d-m-Y');
+            $this->horaObservacao = Carbon::parse($observacaoMedica->horaObservacao)->format('H:i');
             $this->observacaoSumaria = $observacaoMedica->observacaoSumaria;
         } catch (\Throwable $th) {
             dd($th->getMessage());
