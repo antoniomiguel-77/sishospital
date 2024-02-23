@@ -118,3 +118,38 @@
      $('#atendimento').modal('hide');
     }) 
 </script>
+
+
+@push('select2-lab')
+    <script>
+         $(document).ready(function() {
+           
+            $('#exame').select2({
+            theme: "bootstrap5",
+            width:"100%",
+            dropdownParent: $('#pedidoExame')
+            });   
+        
+            $('#exame').change(function (e) { 
+            e.preventDefault();
+            @this.set('exame', $('#exame').val());
+            });
+        });
+    </script>
+@endpush
+@push('select2-exame')
+    <script>
+         $(document).ready(function() {
+            $('#laboratorio').select2({
+            theme: "bootstrap5",
+            width:"100%",
+            dropdownParent: $('#pedidoExame')
+            });   
+        
+            $('#laboratorio').change(function (e) { 
+            e.preventDefault();
+            @this.set('laboratorio', $('#laboratorio').val());
+            });
+        });
+    </script>
+@endpush

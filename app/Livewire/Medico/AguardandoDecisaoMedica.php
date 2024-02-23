@@ -3,22 +3,51 @@
 namespace App\Livewire\Medico;
 
 use App\Models\Medico;
-use App\Models\{Triagem, ObservacaoMedica as ModelObservacaoMedica};
+use App\Models\{Exame, Laboratorio, Triagem, ObservacaoMedica as ModelObservacaoMedica};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class AguardandoDecisaoMedica extends Component
 {
-   public $pesquisar,$mostrar,
+   public $pesquisar,$mostrar,$pedidoExameId,
    $queixasPrincipais,$assistenciaPreHospitalar,
    $diagnosticoDeEntrada,$dataObservacao,
    $horaObservacao,$observacaoSumaria;
     public function render()
     {
         return view('livewire.medico.aguardando-decisao-medica',[
-            'decisoesPendentes'=>$this->listarPacientesAguardandoDecisao($this->pesquisar,$this->mostrar)
+            'decisoesPendentes'=>$this->listarPacientesAguardandoDecisao($this->pesquisar,$this->mostrar),
+            'laboratorios'=>$this->pegarTodosLaboratorios(),
+            'exames'=>$this->pegarTodosExames()
         ])->layout('layouts.medico.app');
+    }
+
+    public function pegarTodosExames()
+    {
+        try {
+           return Exame::get();
+        } catch (\Throwable $th) {
+            $this->alert('error', 'FALHA', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text' => 'Falha ao realizar operação',
+            ]);
+        }
+    }
+    public function pegarTodosLaboratorios()
+    {
+        try {
+           return Laboratorio::get();
+        } catch (\Throwable $th) {
+            $this->alert('error', 'FALHA', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text' => 'Falha ao realizar operação',
+            ]);
+        }
     }
     public function listarPacientesAguardandoDecisao($pesquisar,$mostrar)
     {

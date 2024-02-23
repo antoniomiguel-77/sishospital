@@ -17,7 +17,7 @@
               <i class="fa fa-book fa-1x"></i>
               Diário Clinico do Paciente
             </button>
-            <button class="btn-hover  btn btn-md btn-outline-primary text-uppercase mb-2 p-3">
+            <button data-bs-toggle="modal" data-bs-target="#pedidoExame" class="btn-hover  btn btn-md btn-outline-primary text-uppercase mb-2 p-3">
               <i class="fa fa-magnifying-glass"></i>
                 Pedido de Exame
             </button>
