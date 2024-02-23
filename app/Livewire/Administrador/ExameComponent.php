@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Administrador;
 
-use App\Models\Laboratorio;
+use App\Models\Exame;
 use Exception;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-class LaboratorioComponent extends Component
+class ExameComponent extends Component
 {
     use LivewireAlert;
     public $descricao,$imagem,$exameId,$pesquisar,$mostrar = 5,$telefone;
@@ -14,8 +14,8 @@ class LaboratorioComponent extends Component
 
     public function render()
     {
-        return view('livewire.administrador.laboratorio-component',[
-            'laboratorios'=>$this->listar($this->pesquisar,$this->mostrar),
+        return view('livewire.administrador.exame-component',[
+            'exames'=>$this->listar($this->pesquisar,$this->mostrar),
         ])->layout('layouts.administrador.app');
     }
 
@@ -25,19 +25,19 @@ class LaboratorioComponent extends Component
 
             if($pesquisar != null)
             {
-              return  Laboratorio::where('descricao','like','%'.$pesquisar.'%')
+              return  Exame::where('descricao','like','%'.$pesquisar.'%')
                 ->orderBy('descricao','desc')
                 ->limit($mostrar)
                 ->get();
             }else{
 
-               return Laboratorio::orderBy('descricao','desc')
+               return Exame::orderBy('descricao','desc')
                ->limit($mostrar)
                 ->get();
             }
              
         } catch (\Throwable $th) {
-           
+            dd($th->getMessage());
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -53,7 +53,7 @@ class LaboratorioComponent extends Component
         try {
            
           
-                Laboratorio::create([
+                Exame::create([
                     'descricao'=>$this->descricao,
                 ]);
        
@@ -79,9 +79,9 @@ class LaboratorioComponent extends Component
     {
         try {
 
-            $lab =   Laboratorio::find($id);
-            $this->descricao =   $lab->descricao;
-            $this->labId =   $lab->id;
+            $exame =   Exame::find($id);
+            $this->descricao =   $exame->descricao;
+            $this->exameId =   $exame->id;
    
         } catch (\Throwable $th) {
             $this->alert('error', 'FALHA', [
@@ -100,7 +100,7 @@ class LaboratorioComponent extends Component
             ['descricao.required'=>'Obrigatório','descricao.unique'=>'Já Existe']);
             
                 
-                Laboratorio::find($this->labId)->update([
+                Exame::find($this->exameId)->update([
                     'descricao'=>$this->descricao,
                 ]);
        
@@ -115,7 +115,7 @@ class LaboratorioComponent extends Component
             $this->limparCampos();
 
         } catch (\Throwable $th) {
-         ~
+            dd($th->getMessage());
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -126,7 +126,7 @@ class LaboratorioComponent extends Component
     }
     public function confirmarExclusao($id){
         try{
-            $this->labId = $id;
+            $this->exameId = $id;
             $this->alert('question', 'AVISO', [
                 'icon' => 'warning',
                 'position' => 'center',
@@ -154,7 +154,7 @@ class LaboratorioComponent extends Component
 
     public function excluir(){
         try{
-           Laboratorio::destroy($this->labId);
+           Exame::destroy($this->exameId);
            $this->alert('success', 'SUCESSO', [
             'position' => 'center',
             'toast' => false,
@@ -176,7 +176,7 @@ class LaboratorioComponent extends Component
     {
         try {
             $this->descricao = '';
-            $this->labId = '';
+            $this->exameId = '';
         } catch (\Throwable $th) {
             $this->alert('error', 'FALHA', [
                 'position' => 'center',

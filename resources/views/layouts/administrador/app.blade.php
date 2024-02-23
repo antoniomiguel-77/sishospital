@@ -92,6 +92,12 @@
                           <a class="nav-link" href="{{route('sis.admin.especialidade')}}">Especialidades</a>
                         </li>
                         <li class="nav-item">
+                          <a class="nav-link" href="{{route('sis.admin.laboratorio')}}">Laboratórios</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{route('sis.admin.exames')}}">Exames</a>
+                        </li>
+                        <li class="nav-item">
                           <a class="nav-link" href="{{route('sis.admin.utilizador')}}">Utilizadores</a>
                         </li>
                       </ul>

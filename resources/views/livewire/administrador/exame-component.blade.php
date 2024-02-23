@@ -1,4 +1,4 @@
-@section('titulo','Laboratórios')
+@section('titulo','Exames')
 <div>
     <div class="main-panel">
         <div class="content-wrapper pb-0">
@@ -7,7 +7,7 @@
             </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">
-              <button data-bs-toggle="modal" data-bs-target="#lab" type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
+              <button data-bs-toggle="modal" data-bs-target="#exame" type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
                 <i class="mdi mdi-plus-circle"></i>Adicionar
             </button>
             </div>
@@ -39,13 +39,13 @@
                     <table class="table table-bordered table-hover text-center">
                         <thead>
                         <tr>
-                            <th>Laboratório</th>
+                            <th>Exame</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
                         <tbody>
-                            @if (isset($laboratorios) and $laboratorios->count() > 0)
-                                @foreach ($laboratorios as $item)
+                            @if (isset($exames) and $exames->count() > 0)
+                                @foreach ($exames as $item)
                             <tr>
                                 <td>{{$item->descricao}}</td>
                                 <td>
@@ -73,10 +73,10 @@
 
         
     </div>
-    @include('livewire.administrador.modal.lab')
+    @include('livewire.administrador.modal.exame')
 </div>
 <script>
     document.addEventListener('fecharModal', () => {
-     $('#lab').modal('hide');
+     $('#exame').modal('hide');
     }) 
 </script>

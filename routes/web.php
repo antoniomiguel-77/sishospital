@@ -1,12 +1,14 @@
 <?php
 
-use App\Livewire\Admin\LaboratorioComponent;
+
 use App\Livewire\Administrador\{
     HomeComponent,DepartamentoComponent, 
     EspecialidadeComponent, InstituicaoComponent, 
     UtilizadorComponent,MedicoComponent,
     EnfermeiroComponent,
+    ExameComponent,
     PacienteComponent as Pacientes,
+    LaboratorioComponent
 };
 use App\Livewire\Atendente\{
     EntradaBancoUrgenciaComponent,
@@ -33,6 +35,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('/painel/admin/enfermeiros', EnfermeiroComponent::class)->name('sis.admin.enfermeiro');
     Route::get('/painel/admin/pacientes', Pacientes::class)->name('sis.admin.pacientes');
     Route::get('/painel/admin/laboratorios', LaboratorioComponent::class)->name('sis.admin.laboratorio');
+    Route::get('/painel/admin/exames', ExameComponent::class)->name('sis.admin.exames');
 #Administrador
 
 #Medicos
