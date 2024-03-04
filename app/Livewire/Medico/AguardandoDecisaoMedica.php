@@ -3,7 +3,7 @@
 namespace App\Livewire\Medico;
 
 use App\Models\Medico;
-use App\Models\{Exame, Laboratorio, Triagem, ObservacaoMedica as ModelObservacaoMedica};
+use App\Models\{Exame, Laboratorio, Triagem, ObservacaoMedica as ModelObservacaoMedica, PedidoDeExame};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -14,6 +14,8 @@ class AguardandoDecisaoMedica extends Component
    $queixasPrincipais,$assistenciaPreHospitalar,
    $diagnosticoDeEntrada,$dataObservacao,
    $horaObservacao,$observacaoSumaria;
+
+   public $laboratorio,$exames;
     public function render()
     {
         return view('livewire.medico.aguardando-decisao-medica',[
@@ -124,6 +126,41 @@ class AguardandoDecisaoMedica extends Component
             $this->dataObservacao = '';
             $this->horaObservacao = '';
             $this->observacaoSumaria = '';
+        } catch (\Throwable $th) {
+            $this->alert('error', 'FALHA', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text' => 'Falha ao realizar operação',
+            ]);
+        }
+    }
+
+
+    //Registrar pedido de exame
+    public function registrarPedidoDeExame()
+    {
+        $this->validate([
+            'triagem_id'=>'required',
+            'medico_id'=>'required',
+            'laboratorio'=>'required',
+            'exames'=>'required',
+        ],[
+            'triagem_id.required'=>'Obrigatório',
+            'medico_id.required'=>'Obrigatório',
+            'laboratorio.required'=>'Obrigatório',
+            'exames.required'=>'Obrigatório',
+        ]);
+        try {
+
+            PedidoDeExame::create([
+                'triagem_id'=>$this->triagem_id,
+                'medico_id'=>auth()->user()->medico->medico_id,
+                'laboratorio'=>$this->laboratorio,
+                'exames'=>$this->exames,
+            ]);
+            
+
         } catch (\Throwable $th) {
             $this->alert('error', 'FALHA', [
                 'position' => 'center',

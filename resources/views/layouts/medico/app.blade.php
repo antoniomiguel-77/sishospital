@@ -22,8 +22,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/fontawesome.min.js" integrity="sha512-C8qHv0HOaf4yoA7ISuuCTrsPX8qjolYTZyoFRKNA9dFKnxgzIHnYTOJhXQIt6zwpIFzCrRzUBuVgtC4e5K1nhA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!--SELECT2-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script defer src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   </head>
   <body>
@@ -44,19 +45,20 @@
                     <li class="nav-item nav-profile dropdown">
                       <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="nav-profile-img">
-                          <img src="../assets/images/faces/face1.jpg" alt="image" />
+                          <img src="{{asset('profile.png')}}" alt="image" />
                         </div>
                         <div class="nav-profile-text">
-                          <p class="text-black font-weight-semibold m-0"> Olson jass </p>
+                          <p class="text-black font-weight-semibold m-0">{{auth()->user()->name}}</p>
                           <span class="font-13 online-color">online <i class="mdi mdi-chevron-down"></i></span>
                         </div>
                       </a>
                       <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="#">
-                          <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
+                          <i class="fa fa-cog me-2 text-success"></i>Definições de Conta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                          <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
+                        
+                          @livewire('login.logout-component')
+
                       </div>
                     </li>
                   </ul>
@@ -73,7 +75,7 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.medico.paciente-atendimento')}}">
              
-                      <i class="fa fa-gauge menu-icon"></i>
+                      <i class="fa fa-handshake menu-icon"></i>
                       <span class="menu-title">
                         Atendimentos Pendentes
                         <span class="badge badge-danger">0</span>
@@ -83,13 +85,14 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.medico.aguardando.decisao.medica')}}">
              
-                      <i class="fa fa-gauge menu-icon"></i>
+                      <i class="fa fa-square-poll-vertical menu-icon"></i>
                       <span class="menu-title">
                         Decisões Medicas Pendentes
                         <span class="badge badge-danger">0</span>
                       </span>
                     </a>
                   </li>
+                
                 </ul>
               </div>
             </nav>
@@ -98,14 +101,14 @@
           
             {{$slot}}
  
-              <footer class="footer">
-                <div class="container">
-                  <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © {{date('Y')}}. All rights reserved.</span>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Dev-Miguel<i class="mdi mdi-heart text-danger"></i></span>
-                  </div>
+            <footer class="footer">
+              <div class="container">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © {{date('Y')}}. Todos direitos reservados.</span>
+                  <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Dev-Miguel</span>
                 </div>
-              </footer>
+              </div>
+            </footer>
             
             </div>
        

@@ -125,7 +125,7 @@
          $(document).ready(function() {
            
             $('#exame').select2({
-            theme: "bootstrap5",
+            theme: "bootstrap",
             width:"100%",
             dropdownParent: $('#pedidoExame')
             });   
@@ -141,7 +141,7 @@
     <script>
          $(document).ready(function() {
             $('#laboratorio').select2({
-            theme: "bootstrap5",
+            theme: "bootstrap",
             width:"100%",
             dropdownParent: $('#pedidoExame')
             });   

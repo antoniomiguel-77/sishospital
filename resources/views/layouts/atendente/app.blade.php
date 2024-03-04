@@ -43,16 +43,15 @@
                           <img src="../assets/images/faces/face1.jpg" alt="image" />
                         </div>
                         <div class="nav-profile-text">
-                          <p class="text-black font-weight-semibold m-0"> Olson jass </p>
+                          <p class="text-black font-weight-semibold m-0">{{auth()->user()->name}}</p>
                           <span class="font-13 online-color">online <i class="mdi mdi-chevron-down"></i></span>
                         </div>
                       </a>
                       <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="#">
-                          <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
+                          <i class="mdi mdi-cached me-2 text-success"></i>Definições de Conta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                          <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
+                        @livewire('login.logout-component')
                       </div>
                     </li>
                   </ul>
@@ -86,14 +85,14 @@
           
             {{$slot}}
  
-              <footer class="footer">
-                <div class="container">
-                  <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © {{date('Y')}}. All rights reserved.</span>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Dev-Miguel<i class="mdi mdi-heart text-danger"></i></span>
-                  </div>
+            <footer class="footer">
+              <div class="container">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © {{date('Y')}}. Todos direitos reservados.</span>
+                  <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Dev-Miguel</span>
                 </div>
-              </footer>
+              </div>
+            </footer>
             
             </div>
        
