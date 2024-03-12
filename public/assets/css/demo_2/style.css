@@ -5159,7 +5159,7 @@ textarea.is-invalid.tt-hint {
       -webkit-transition: none;
       transition: none; } }
   .nav-link:hover, .nav-link:focus {
-    color: #115a79; }
+    color: #ffff; }
   .nav-link.disabled {
     color: #6c757d;
     pointer-events: none;
@@ -15364,7 +15364,7 @@ dl {
           background: transparent; }
           .horizontal-menu .bottom-navbar .page-navigation > .nav-item:hover > .nav-link i,
           .horizontal-menu .bottom-navbar .page-navigation > .nav-item:hover > .nav-link .menu-title {
-            color: #115a79;
+            color: #fff;
             -webkit-transition: color 1s ease;
             transition: color 1s ease; }
           .horizontal-menu .bottom-navbar .page-navigation > .nav-item:hover > .nav-link .menu-arrow {

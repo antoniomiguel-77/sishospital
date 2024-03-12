@@ -2,62 +2,53 @@
 
 namespace App\Livewire\Administrador;
 
-use App\Models\Departamento;
-use App\Models\Especialidade;
-use Livewire\Component;
-use Livewire\WithFileUploads;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
-use App\Models\Medico;
+use App\Models\Atendente;
 use App\Models\Municipio;
 use App\Models\Pais;
 use App\Models\Provincia;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Component;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class MedicoComponent extends Component
+class AtendenteComponent extends Component
 {
-    
-    use WithFileUploads;
     use LivewireAlert;
-    public $medicoId,$pesquisar,$mostrar = 5,$especialidade_id,$nomeCompleto,$dataDeNascimento,$idade,$nacionalidade,$imagem,$dataDeVinculo,
-            $numeroOrdem,$contribuente,$provincia,$municipio,$departamento_id,$documentosAssociados,
-            $telefone, $genero, $estado = 'Activo', $biografia,$email,$todosMunicipios = [];
+    public $estado,$atendenteId,$pesquisar,$mostrar = 5,$nomeCompleto,$dataDeNascimento,$idade,$nacionalidade,
+            $contribuente,$provincia,$municipio,$departamento_id,$documentosAssociados,
+            $telefone, $genero,$email,$todosMunicipios = [];
    
     protected $listeners = ['excluir'=>'excluir','fecharModal'=>'fecharModal'];
-    
+    public function render()
+    {
+        return view('livewire.administrador.atendente-component',[
+            'atendentes'=>$this->listar($this->pesquisar),
+            'provincias'=>$this->pegarProvincias(),
+            'nacionalidades'=>$this->pegarPais(),
+
+        ])->layout('layouts.administrador.app');;
+    }
+
     protected $mensagens = [
         'especialidade_id.required'=>'Obrigatório',
         'departamento_id.required'=>'Obrigatório',
         'nomeCompleto.required'=>'Obrigatório',
-        'nomeCompleto.unique'=>'Já existe',
         'dataDeNascimento.required'=>'Obrigatório',
-        'dataDeVinculo.required'=>'Obrigatório',
         'nacionalidade.required'=>'Obrigatório',
-        'numeroOrdem.required'=>'Obrigatório',
         'contribuente.required'=>'Obrigatório',
         'provincia.required'=>'Obrigatório',
         'municipio.required'=>'Obrigatório',
         'endereco.required'=>'Obrigatório',
         'telefone.required'=>'Obrigatório',
         'genero.required'=>'Obrigatório',
-        'biografia.required'=>'Obrigatório',
         'email.unique'=>'Já existe',
         'email.required'=>'Obrigatório',
     ];
   
-    public function render()
-    {
-        return view('livewire.administrador.medico-component',[
-            'especialidades'=>$this->especialidades(),
-            'medicos'=>$this->listar($this->pesquisar,$this->mostrar),
-            'provincias'=>$this->pegarProvincias(),
-            'nacionalidades'=>$this->pegarPais(),
-            'departamentos'=>$this->pegarDepartamento(),
-        ])->layout('layouts.administrador.app');
-    }
+ 
 
     public function filtrarMunicipioPorProvincia()
     {
@@ -93,39 +84,12 @@ class MedicoComponent extends Component
             ]);
         }
     }
-    public function pegarDepartamento()
-    {
-        try {
-          
-            return Departamento::orderBy('descricao','asc')->get();
-        } catch (\Throwable $th) {
-            $this->alert('error', 'FALHA', [
-                'position' => 'center',
-                'toast' => false,
-                'timer' => 2000,
-                'text' => 'Falha ao realizar operação',
-            ]);
-        }
-    }
     
     public function pegarPais()
     {
         try {
            
             return Pais::orderBy('descricao','asc')->get();
-        } catch (\Throwable $th) {
-            $this->alert('error', 'FALHA', [
-                'position' => 'center',
-                'toast' => false,
-                'timer' => 2000,
-                'text' => 'Falha ao realizar operação',
-            ]);
-        }
-    }
-    public function especialidades()
-    {
-        try {
-           return Especialidade::orderBy('descricao','asc')->get();
         } catch (\Throwable $th) {
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
@@ -143,17 +107,19 @@ class MedicoComponent extends Component
 
             if($pesquisar != null)
             {
-              return  Medico::where('nomeCompleto','like','%'.$pesquisar.'%')
+              return  Atendente::where('nomeCompleto','like','%'.$pesquisar.'%')
                 ->orderBy('nomeCompleto','asc')
+                ->limit($this->mostrar)
                 ->get();
             }else{
-
-               return Medico::orderBy('nomeCompleto','desc')
+                
+               return Atendente::orderBy('nomeCompleto','desc')
+               ->limit($this->mostrar)
                 ->get();
             }
              
         } catch (\Throwable $th) {
-           dd($th->getMessage());
+            dd($th->getMessage());
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -168,71 +134,40 @@ class MedicoComponent extends Component
         
         DB::beginTransaction();
         $this->validate([
-            'especialidade_id'=>'required',
-            'departamento_id'=>'required',
-            'nomeCompleto'=>'required',
             'nomeCompleto'=>'required',
             'dataDeNascimento'=>'required',
-            'dataDeVinculo'=>'required',
             'nacionalidade'=>'required',
-            'numeroOrdem'=>'required',
             'contribuente'=>'required',
             'provincia'=>'required',
             'municipio'=>'required',
             'telefone'=>'required',
             'genero'=>'required',
-            'biografia'=>'required',
-            'email'=>'required',
+            'email'=>'required|unique:users,email,'.$this->atendenteId,
         ],$this->mensagens);
         try {
      
-            if($this->imagem != "" && !is_string($this->imagem)){
-
-                $extensao = $this->imagem->getclientOriginalExtension();
-                $nomeDaImagem = md5($this->imagem->getclientOriginalName()).'.'. $extensao;
-                $this->imagem->storeAs('/public/Medico/',$nomeDaImagem);
-                $this->imagem = $nomeDaImagem;
-            }
-
-            if($this->documentosAssociados != "" && !is_string($this->documentosAssociados)){
-
-                $extensao = $this->documentosAssociados->getclientOriginalExtension();
-                $nomeDoDocumento = md5($this->documentosAssociados->getclientOriginalName()).'.'. $extensao;
-                $this->documentosAssociados->storeAs('/public/Medico/',$nomeDoDocumento);
-                $this->documentosAssociados = $nomeDoDocumento;
-            }
-                
-                
-             
-            
                 $usuario = User::create([
                     'name'=>$this->nomeCompleto,
                     'email'=>$this->email,
                     'password'=>Hash::make('123456789'),
-                    'nivel'=>'Médico',
+                    'nivel'=>'Atendente',
                     'estado'=>'Activa',
                 ]);
                 
-                Medico::create([
+                Atendente::create([
                     'user_id'=>$usuario->id,
-                    'especialidade_id'=>$this->especialidade_id,
-                    'departamento_id'=>$this->departamento_id,
                     'nomeCompleto'=>$this->nomeCompleto,
                     'dataDeNascimento'=>$this->dataDeNascimento,
-                    'dataDeVinculo'=>$this->dataDeVinculo,
                     'idade'=>Carbon::parse($this->dataDeNascimento)->age,
                     'nacionalidade'=>$this->nacionalidade,
-                    'numeroOrdem'=>$this->numeroOrdem,
                     'contribuente'=>$this->contribuente,
                     'provincia'=>Provincia::find($this->provincia)->descricao,
                     'municipio'=>$this->municipio,
                     'telefone'=>$this->telefone,
                     'genero'=>$this->genero,
-                    'estado'=>$this->estado ?? 'Activo',
-                    'biografia'=>$this->biografia,
                     'email'=>$this->email,
-                    'imagem'=>$this->imagem,
-                    'documentosAssociados'=>$this->documentosAssociados,
+                    'estado'=>$this->estado ?? 'Activo',
+
                 ]);
        
                 $this->alert('success', 'SUCESSO', [
@@ -245,7 +180,6 @@ class MedicoComponent extends Component
             $this->limparCampos();
             DB::commit();
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             DB::rollback();
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
@@ -260,30 +194,23 @@ class MedicoComponent extends Component
        
         try {
 
-            $medico =   Medico::find($id);
-            $provincia = Provincia::where('descricao','=',$medico->provincia)->first();
+            $atendente =   Atendente::find($id);
+            $provincia = Provincia::where('descricao','=',$atendente->provincia)->first();
             $municipio = Municipio::where('provincia_id',$provincia->id)->first();
             
-            $this->especialidade_id = $medico->especialidade_id;
-            $this->nomeCompleto = $medico->nomeCompleto;
-            $this->dataDeNascimento = $medico->dataDeNascimento;
-            $this->nacionalidade = $medico->nacionalidade;
-            $this->imagem = $medico->imagem;
-            $this->contribuente = $medico->contribuente;
+            $this->nomeCompleto = $atendente->nomeCompleto;
+            $this->dataDeNascimento = $atendente->dataDeNascimento;
+            $this->nacionalidade = $atendente->nacionalidade;
+            $this->contribuente = $atendente->contribuente;
             $this->provincia =  $provincia->id;
             $this->municipio = $municipio->descricao;
-            $this->telefone = $medico->telefone;
-            $this->genero = $medico->genero;
-            $this->estado = $medico->estado;
-            $this->biografia = $medico->biografia;
-            $this->medicoId =   $medico->id;
-            $this->email =   $medico->email;
-            $this->departamento_id =   $medico->departamento_id;
-            $this->dataDeVinculo =   $medico->dataDeVinculo;
-            $this->numeroOrdem =   $medico->numeroOrdem;
+            $this->telefone = $atendente->telefone;
+            $this->genero = $atendente->genero;
+            $this->atendenteId =   $atendente->id;
+            $this->email =   $atendente->email;
+            $this->estado =   $atendente->estado;
    
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -295,68 +222,40 @@ class MedicoComponent extends Component
     public function actualizar()
     {
         $this->validate([
-            'nomeCompleto'=>'required|unique:medicos,nomeCompleto,'.$this->medicoId,
-            'especialidade_id'=>'required',
-            'departamento_id'=>'required',
             'nomeCompleto'=>'required',
             'nomeCompleto'=>'required',
             'dataDeNascimento'=>'required',
-            'dataDeVinculo'=>'required',
             'nacionalidade'=>'required',
-            'numeroOrdem'=>'required',
             'contribuente'=>'required',
             'provincia'=>'required',
             'municipio'=>'required',
             'telefone'=>'required',
             'genero'=>'required',
-            'biografia'=>'required',
-            'email'=>'required|unique:medicos,email,'.$this->medicoId,
+            'email'=>'required|unique:atendentes,email,'.$this->atendenteId,
             ],$this->mensagens);
         try {
            
 
-            if($this->imagem != "" && !is_string($this->imagem)){
-
-                $extensao = $this->imagem->getclientOriginalExtension();
-                $nomeDaImagem = md5($this->imagem->getclientOriginalName()).'.'. $extensao;
-                $this->imagem->storeAs('/public/Medico/',$nomeDaImagem);
-                $this->imagem = $nomeDaImagem;
-            }
-
-            if($this->documentosAssociados != "" && !is_string($this->documentosAssociados)){
-
-                $extensao = $this->documentosAssociados->getclientOriginalExtension();
-                $nomeDaDocumento = md5($this->documentosAssociados->getclientOriginalName()).'.'. $extensao;
-                $this->documentosAssociados->storeAs('/public/Medico/',$nomeDaDocumento);
-                $this->documentosAssociados = $nomeDaDocumento;
-
-                
-            }
-             
+         
+        
             
                 
-              $medico =   Medico::find($this->medicoId);
+              $atendente =   Atendente::find($this->atendenteId);
               
               
-              $medico->update([
-                    'especialidade_id'=>$this->especialidade_id,
-                    'departamento_id'=>$this->departamento_id,
+              $atendente->update([
                     'nomeCompleto'=>$this->nomeCompleto,
                     'dataDeNascimento'=>$this->dataDeNascimento,
-                    'dataDeVinculo'=>$this->dataDeVinculo,
                     'idade'=>Carbon::parse($this->dataDeNascimento)->age,
                     'nacionalidade'=>$this->nacionalidade,
-                    'numeroOrdem'=>$this->numeroOrdem,
                     'contribuente'=>$this->contribuente,
                     'provincia'=>Provincia::find($this->provincia)->descricao,
                     'municipio'=>$this->municipio,
                     'telefone'=>$this->telefone,
                     'genero'=>$this->genero,
-                    'estado'=>$this->estado ?? 'Activo',
-                    'biografia'=>$this->biografia,
                     'email'=>$this->email,
-                    'imagem'=>$this->imagem ?? $medico->imagem,
-                    'documentosAssociados'=>$this->documentosAssociados ?? $medico->documentosAssociados,
+                    'estado'=>$this->estado ?? 'Activo',
+                    'documentosAssociados'=>$this->documentosAssociados ?? $atendente->documentosAssociados,
                   
                 ]);
        
@@ -371,7 +270,7 @@ class MedicoComponent extends Component
             $this->limparCampos();
 
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+           
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -382,7 +281,7 @@ class MedicoComponent extends Component
     }
     public function confirmarExclusao($id){
         try{
-            $this->medicoId = $id;
+            $this->atendenteId = $id;
             $this->alert('question', 'TEM A CERTEZA', [
                 'icon' => 'warning',
                 'position' => 'center',
@@ -410,7 +309,7 @@ class MedicoComponent extends Component
 
     public function excluir(){
         try{
-           Medico::destroy($this->MedicoId);
+           Atendente::destroy($this->atendenteId);
            $this->alert('success', 'SUCESSO', [
             'position' => 'center',
             'toast' => false,
@@ -431,25 +330,17 @@ class MedicoComponent extends Component
     public function limparCampos()
     {
         try {
-            $this->especialidade_id = '';
             $this->nomeCompleto = '';
             $this->dataDeNascimento = '';
             $this->nacionalidade = '';
-            $this->imagem = '';
-            $this->documentosAssociados = '';
-            $this->numeroOrdem = '';
             $this->contribuente = '';
             $this->provincia = '';
             $this->municipio = '';
-            $this->dataDeVinculo = '';
             $this->telefone = '';
             $this->genero = '';
-            $this->estado = '';
-            $this->biografia = '';
-            $this->medicoId =   '';
+            $this->atendenteId =   '';
             $this->email =   '';
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -458,5 +349,4 @@ class MedicoComponent extends Component
             ]);
         }
     }
-
 }

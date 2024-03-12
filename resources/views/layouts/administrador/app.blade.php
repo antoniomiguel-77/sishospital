@@ -117,6 +117,12 @@
                     </a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" href="{{route('sis.admin.atendentes')}}">
+                      <i class="fa fa-clipboard-user"></i>
+                        <span class="">Atendentes</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.admin.pacientes')}}">
             
                       <i class="fas fa-bed-pulse menu-icon"></i>

@@ -2,6 +2,7 @@
 
 
 use App\Livewire\Administrador\{
+    AtendenteComponent as Atendent,
     HomeComponent,DepartamentoComponent, 
     EspecialidadeComponent, InstituicaoComponent, 
     UtilizadorComponent,MedicoComponent,
@@ -11,6 +12,7 @@ use App\Livewire\Administrador\{
     LaboratorioComponent
 };
 use App\Livewire\Atendente\{
+    AtendenteComponent,
     EntradaBancoUrgenciaComponent,
     PacienteComponent,
 };
@@ -23,6 +25,7 @@ use App\Livewire\Medico\{
     ObservacaoMedica,
     PacienteAguardandoAtendimento,
 };
+use App\Models\Atendente;
 use App\Models\Triagem;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -38,11 +41,12 @@ use Illuminate\Support\Facades\Route;
     Route::get('/painel/admin/pacientes', Pacientes::class)->name('sis.admin.pacientes')->middleware(['auth']);;
     Route::get('/painel/admin/laboratorios', LaboratorioComponent::class)->name('sis.admin.laboratorio')->middleware(['auth']);;
     Route::get('/painel/admin/exames', ExameComponent::class)->name('sis.admin.exames')->middleware(['auth']);;
+    Route::get('/painel/admin/atendentes', Atendent::class)->name('sis.admin.atendentes')->middleware(['auth']);;
 #Administrador
 
 #Medicos
-    Route::get('/painel/medico/paciente-aguardando-atendimento', PacienteAguardandoAtendimento::class)->name('sis.medico.paciente-atendimento')->middleware(['auth']);;
-    Route::get('/painel/medico/aguardando-decisao-medica', AguardandoDecisaoMedica::class)->name('sis.medico.aguardando.decisao.medica')->middleware(['auth']);;
+    Route::get('/painel/medico/paciente-aguardando-atendimento', PacienteAguardandoAtendimento::class)->name('sis.medico.paciente-atendimento')->middleware(['auth']);
+    Route::get('/painel/medico/aguardando-decisao-medica', AguardandoDecisaoMedica::class)->name('sis.medico.aguardando.decisao.medica')->middleware(['auth']);
 #Medicos
 
 #enfermeiros
@@ -56,4 +60,5 @@ use Illuminate\Support\Facades\Route;
 
 #Autenticacao
 Route::get('/',LoginComponent::class)->name('login');
+Route::get('/test',function(){dd(\Hash::make('123456789'));});
 #Autenticacao

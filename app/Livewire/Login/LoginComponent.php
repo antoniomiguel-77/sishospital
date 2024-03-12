@@ -29,7 +29,7 @@ class LoginComponent extends Component
 
             if(!$user){
 
-                session()->put('message','Não existe uma conta com este e-mail!!!');
+                Session()->put('message','Não existe uma conta com este e-mail!!!');
             
                 return;
             }
@@ -38,28 +38,36 @@ class LoginComponent extends Component
             if($user->estado == 'Activa'){
                 
                 if(Auth::attempt(['email' => $this->email, 'password' => $this->password])){
+                   
                     
                     if ($user->nivel == 'Administrador' ) {
+                        $user->online = 'On';
+                        $user->save();
                         return redirect()->route('sis.admin.home');
                     }elseif($user->nivel == 'Médico' ){
+                        $user->online = 'On';
+                        $user->save();
                         return redirect()->route('sis.medico.paciente-atendimento');
                     }elseif($user->nivel == 'Enfermeiro' ){
+                        $user->online = 'On';
+                        $user->save();
                         return redirect()->route('sis.enferm.triagem');
                     }else{
+                        $user->online = 'On';
+                        $user->save();
                         return redirect()->route('sis.atend.banco-de-urgencia');
                     }
             }else{
-                session()->put('message','Credências Inválidas!!!');
+                Session()->put('message','Credências Inválidas!!!');
           
             }
 
             Session()->forget('message');
         }
 
-            return redirect()->route('sis.dasgboard');
         } catch (\Throwable $th) {
             
-            session()->put('message','Falha ao realizar operação');
+            session()->put('message','Falha ao realizar operação'.$th->getMessage());
            
         }
     }
