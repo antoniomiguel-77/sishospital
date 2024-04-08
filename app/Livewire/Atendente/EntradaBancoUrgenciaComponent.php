@@ -103,8 +103,6 @@ class EntradaBancoUrgenciaComponent extends Component
                 'onConfirmed' => 'DarEntrada' 
             ]);
         }catch(Exception $ex){
-            dd($ex->getMessage());
-
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -118,17 +116,9 @@ class EntradaBancoUrgenciaComponent extends Component
     {
         $this->validate([
             'paciente'=>'required',
-            'acompanhante'=>'required',
-            'proveniencia'=>'required',
-            'proveniencia'=>'required',
-            'telefone'=>'required',
             'areaDeBancoDeUrgencia'=>'required',
         ],[
             'paciente.required'=>'Obrigatório',
-            'acompanhante.required'=>'Obrigatório',
-            'proveniencia.required'=>'Obrigatório',
-            'proveniencia.required'=>'Obrigatório',
-            'telefone.required'=>'Obrigatório',
             'areaDeBancoDeUrgencia.required'=>'Obrigatório',
         ]);
         DB::beginTransaction();
@@ -138,10 +128,10 @@ class EntradaBancoUrgenciaComponent extends Component
             
                 EntradaBancoDeUrgencia::create([
                     'paciente_id'=>$existe->id,
-                    'acompanhante'=>$this->acompanhante,
+                    'acompanhante'=>$this->acompanhante ?? 'SEM ACOMPANHANTE',
                     'data'=>date('Y-m-d'),
                     'hora'=>date('H:i'),
-                    'proveniencia'=>$this->proveniencia,
+                    'proveniencia'=>$this->proveniencia ?? 'NÃO INFORMADO',
                     'area'=>$this->areaDeBancoDeUrgencia,
                     'telefone'=>$this->telefone,
                     'situacao'=>'Aguardando Triagem',

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('acompanhante')->nullable();
             $table->date('data');
             $table->time('hora');
-            $table->string('proveniencia');
+            $table->string('proveniencia')->nullable();
             $table->string('area');
             $table->string('telefone')->nullable();
             $table->enum('situacao',['Aguardando Triagem','Aguardando Atendimento','Aguardando Decisão']);

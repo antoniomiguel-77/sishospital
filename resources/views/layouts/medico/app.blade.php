@@ -83,6 +83,22 @@
                     </a>
                   </li>
                   <li class="nav-item">
+                    <a href="#" class="nav-link">
+                    
+                      <i class="fa fa-eye menu-icon"></i>
+                    
+                      <span class="menu-title">Vêr</span>
+                      <i class="menu-arrow"></i>
+                    </a>
+                    <div class="submenu">
+                      <ul class="submenu-item">
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{route('sis.medico.listar.exames')}}">Pedidos de Exames</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.medico.aguardando.decisao.medica')}}">
              
                       <i class="fa fa-square-poll-vertical menu-icon"></i>
@@ -92,6 +108,7 @@
                       </span>
                     </a>
                   </li>
+                 
                 
                 </ul>
               </div>

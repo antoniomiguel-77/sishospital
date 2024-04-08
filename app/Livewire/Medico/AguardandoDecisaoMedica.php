@@ -7,21 +7,24 @@ use App\Models\{Exame, Laboratorio, Triagem, ObservacaoMedica as ModelObservacao
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
-
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 class AguardandoDecisaoMedica extends Component
 {
+    use LivewireAlert;
    public $pesquisar,$mostrar,$pedidoExameId,
    $queixasPrincipais,$assistenciaPreHospitalar,
    $diagnosticoDeEntrada,$dataObservacao,
-   $horaObservacao,$observacaoSumaria;
+   $horaObservacao,$observacaoSumaria,$triagem_id;
+  
 
-   public $laboratorio,$exames;
+   public $laboratorio,$exames  = [],$descricao;
+   protected $listeners = ['fecharModal'=>'fecharModal'];
     public function render()
     {
         return view('livewire.medico.aguardando-decisao-medica',[
             'decisoesPendentes'=>$this->listarPacientesAguardandoDecisao($this->pesquisar,$this->mostrar),
             'laboratorios'=>$this->pegarTodosLaboratorios(),
-            'exames'=>$this->pegarTodosExames()
+            'todosExames'=>$this->pegarTodosExames()
         ])->layout('layouts.medico.app');
     }
 
@@ -136,31 +139,10 @@ class AguardandoDecisaoMedica extends Component
         }
     }
 
-
-    //Registrar pedido de exame
-    public function registrarPedidoDeExame()
+    public function pegarIdDaTriagem($id)
     {
-        $this->validate([
-            'triagem_id'=>'required',
-            'medico_id'=>'required',
-            'laboratorio'=>'required',
-            'exames'=>'required',
-        ],[
-            'triagem_id.required'=>'Obrigatório',
-            'medico_id.required'=>'Obrigatório',
-            'laboratorio.required'=>'Obrigatório',
-            'exames.required'=>'Obrigatório',
-        ]);
         try {
-
-            PedidoDeExame::create([
-                'triagem_id'=>$this->triagem_id,
-                'medico_id'=>auth()->user()->medico->medico_id,
-                'laboratorio'=>$this->laboratorio,
-                'exames'=>$this->exames,
-            ]);
-            
-
+           $this->triagem_id = $id;
         } catch (\Throwable $th) {
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
@@ -169,6 +151,52 @@ class AguardandoDecisaoMedica extends Component
                 'text' => 'Falha ao realizar operação',
             ]);
         }
+    }
+
+    //Registrar pedido de exame
+    public function registrarPedidoDeExame()
+    {
+         
+          $this->validate([
+              'laboratorio'=>'required',
+              'exames'=>'required',
+          ],[
+              'laboratorio.required'=>'Obrigatório',
+              'exames.required'=>'Obrigatório',
+          ]);
+      
+         try {
+         
+            $medico = Medico::where('user_id',auth()->user()->medico->user_id)
+            ->select('id')
+            ->first();
+             
+            PedidoDeExame::create([
+                'triagem_id'=>$this->triagem_id,
+                'medico_id'=>$medico->id,
+                'laboratorio'=>$this->laboratorio,
+                'exames'=>$this->exames,
+                'descricao'=>$this->descricao,
+            ]);
+
+            $this->alert('success', 'SUCESSO', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text'=>'Operação Realizada com sucesso'
+            ]);
+
+            $this->dispatch('fecharModal');
+            
+
+         } catch (\Throwable $th) {
+             $this->alert('error', 'FALHA', [
+                 'position' => 'center',
+                 'toast' => false,
+                 'timer' => 2000,
+                 'text' => 'Falha ao realizar operação',
+             ]);
+         }
     }
  
 }

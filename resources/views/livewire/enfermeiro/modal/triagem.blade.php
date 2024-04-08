@@ -39,7 +39,7 @@
                      
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="telefone">Telefone<span class="text-danger">*</span></label>
+                          <label for="telefone">Telefone</label>
                           <input placeholder="999-999-999" readonly class="form-control" type="tel" name="telefone" id="telefone" wire:model='telefone'>
                           @error('telefone') <span class="text-danger">{{$message}}</span> @enderror
                         </div>

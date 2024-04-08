@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Paciente::class);
             $table->foreignIdFor(\App\Models\Enfermeiro::class);
-            $table->string('acompanhante');
+            $table->string('acompanhante')->nullable();
             $table->date('dataEntrada');
             $table->time('horaEntrada');
             $table->string('escalaDeManchester');
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->longText('notaDeTriagem');
             $table->string('proveniencia');
             $table->string('encaminharPara')->nullable();
-            $table->string('telefone');
+            $table->string('telefone')->nullable();
             $table->boolean('estado')->default(0);
             $table->enum('atendido',['Sim','Não'])->default('Não')->nullable();
             $table->timestamps();

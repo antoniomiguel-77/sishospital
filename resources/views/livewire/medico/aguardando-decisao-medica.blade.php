@@ -1,5 +1,5 @@
 @section('titulo','Entradas')
-<div>
+<div wire:poll.15s>
     <div class="main-panel">
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
@@ -54,7 +54,7 @@
                       
                             @if (isset($decisoesPendentes) and $decisoesPendentes->count() > 0)
                             @foreach ($decisoesPendentes as $item)
-                            <tr style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#menu">
+                            <tr>
                                 <td>{{$item->nomeCompleto ?? 'NÃO DEFINIDO'}}</td>
                                 <td>{{$item->idade ?? 'NÃO DEFINIDO'}}</td>
                                 <td>{{$item->dataEntrada}}</td>
@@ -80,6 +80,9 @@
                                     </button>
                                     <button title="Imprimir Ficha do Paciente" class="btn btn-sm btn-outline-primary">
                                         <i class="fa fa-print"></i>
+                                    </button>
+                                    <button title="Menú de Operações" data-bs-toggle="modal" wire:click='pegarIdDaTriagem({{$item->id}})' data-bs-target="#menu" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa fa-caret-down"></i>
                                     </button>
                                 </td>
                                 
@@ -116,6 +119,7 @@
 <script>
     document.addEventListener('fecharModal', () => {
      $('#atendimento').modal('hide');
+     $('#pedidoExame').modal('hide');
     }) 
 </script>
 
@@ -140,15 +144,15 @@
 @push('select2-exame')
     <script>
          $(document).ready(function() {
-            $('#laboratorio').select2({
+            $('#exames').select2({
             theme: "bootstrap",
             width:"100%",
             dropdownParent: $('#pedidoExame')
             });   
         
-            $('#laboratorio').change(function (e) { 
+            $('#exames').change(function (e) { 
             e.preventDefault();
-            @this.set('laboratorio', $('#laboratorio').val());
+            @this.set('exames', $('#exames').val());
             });
         });
     </script>

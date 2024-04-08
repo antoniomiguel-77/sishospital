@@ -5,12 +5,7 @@
           <div class="page-header flex-wrap">
             <div style="border:1px solid red" class="header-left">
             </div>
-
-            <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">
-              <button data-bs-toggle="modal" data-bs-target="#utilizadores" type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
-                <i class="mdi mdi-plus-circle"></i>Adicionar
-            </button>
-            </div>
+ 
           </div>
   
         

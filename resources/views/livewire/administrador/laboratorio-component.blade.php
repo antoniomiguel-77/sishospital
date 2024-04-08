@@ -49,7 +49,7 @@
                             <tr>
                                 <td>{{$item->descricao}}</td>
                                 <td>
-                                    <button type="button" wire:click="editar({{$item->id}})" data-bs-toggle="modal" data-bs-target="#exame" class="btn btn-sm btn-outline-primary"> <i class="fa fa-edit"></i></button>
+                                    <button type="button" wire:click="editar({{$item->id}})" data-bs-toggle="modal" data-bs-target="#lab" class="btn btn-sm btn-outline-primary"> <i class="fa fa-edit"></i></button>
                                     <button type="button" wire:click="confirmarExclusao({{$item->id}})" class="btn btn-sm btn-outline-danger"> <i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>

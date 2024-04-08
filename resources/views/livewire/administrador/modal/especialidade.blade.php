@@ -17,9 +17,10 @@
               @else
             
               <div class="mb-3  d-flex justify-content-end ">
-                <span wire:click='add({{$i}})' class=" text-uppercase col-md-1  btn btn-outline-primary d-flex justify-content-center align-items-center" style="cursor: pointer" id="basic-addon1">
+                <button type="button" wire:click='add({{$i}})' class=" text-uppercase col-md-12  btn btn-outline-primary d-flex justify-content-center align-items-center" style="cursor: pointer" id="basic-addon1">
                   <i class="fa fa-plus"></i>
-                </span>
+                  ADICIONAR
+                </button>
               </div>
 
 

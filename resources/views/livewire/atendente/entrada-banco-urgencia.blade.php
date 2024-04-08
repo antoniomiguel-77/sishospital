@@ -53,11 +53,11 @@
                           @foreach ($pacientes as $item)
                           <tr data-toggle="modal" data-target="#entradaUrgencia">
                             <td class="text-end">{{\Carbon\Carbon::parse($item->created_at)->format('d-m-Y H:i')}}</td>
-                              <td>{{$item->nomeCompleto}}</td>
-                              <td>{{$item->telefone}}</td>
-                              <td>{{$item->area}}</td>
-                              <td>{{$item->proveniencia}}</td>
-                              <td>{{$item->acompanhante}}</td>
+                              <td>{{$item->nomeCompleto ?? 'NÃO INFORMADO'}}</td>
+                              <td>{{$item->telefone ?? 'NÃO INFORMADO'}}</td>
+                              <td>{{$item->area ?? 'NÃO INFORMADO'}}</td>
+                              <td>{{$item->proveniencia ?? 'NÃO INFORMADO'}}</td>
+                              <td>{{$item->acompanhante ?? 'NÃO INFORMADO'}}</td>
                               <td>
                                 <span class="badge badge-warning">{{$item->situacao}}</span>
                               </td>

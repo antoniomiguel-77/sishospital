@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('provincia');
             $table->string('municipio');
             $table->string('endereco');
-            $table->string('logotipo');
+            $table->string('logotipo')->nullable();
             $table->timestamps();
         });
     }

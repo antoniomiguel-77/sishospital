@@ -26,18 +26,21 @@ class UtilizadorComponent extends Component
             if($pesquisar != null)
             {
               return  User::where('name','like','%'.$pesquisar.'%')
-                ->orderBy('name','desc')
-                ->limit($mostrar)
-                ->get();
+              ->where('nivel','<>','administrador')
+              ->orderBy('name','desc')
+              ->limit($mostrar)
+              ->get();
             }else{
-
-               return User::orderBy('name','desc')
+                
+                return User::orderBy('name','desc')
+                ->where('nivel','<>','administrador')
+                ->orderBy('name','desc')
                ->limit($mostrar)
                 ->get();
             }
              
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+   
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,

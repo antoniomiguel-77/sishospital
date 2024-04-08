@@ -78,7 +78,6 @@ class PacienteAguardandoTriagem extends Component
           
              
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -148,8 +147,6 @@ class PacienteAguardandoTriagem extends Component
         DB::beginTransaction();
         $this->validate([
             'paciente'=>'required',
-            'acompanhante'=>'required',
-            'telefone'=>'required',
             'respiracao'=>'required',
             'pulso'=>'required',
             'tensaoDiastolica'=>'required',
@@ -162,8 +159,6 @@ class PacienteAguardandoTriagem extends Component
             'encaminharPara'=>'required',
         ],[
             'paciente.required'=>'Obrigatório',
-            'acompanhante.required'=>'Obrigatório',
-            'telefone.required'=>'Obrigatório',
             'respiracao.required'=>'Obrigatório',
             'pulso.required'=>'Obrigatório',
             'tensaoDiastolica.required'=>'Obrigatório',

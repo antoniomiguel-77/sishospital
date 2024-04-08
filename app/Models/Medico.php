@@ -43,8 +43,8 @@ class Medico extends Model
         return $this->belongsTo(\App\Models\Departamento::class, 'departamento_id', 'id');
     }
 
-    public function user()
+    public function userMedico()
     {
-        return $this->hasOne(User::class, 'user_id', 'id');
+        return $this->hasOne(User::class,'user_id', 'id');
     }
 }

@@ -49,7 +49,7 @@ class ExameComponent extends Component
 
     public function salvar()
     {
-        $this->validate(['descricao'=>'required|unique:departamentos,descricao'],['descricao.required'=>'Obrigatório']);
+        $this->validate(['descricao'=>'required|unique:exames,descricao'],['descricao.required'=>'Obrigatório']);
         try {
            
           

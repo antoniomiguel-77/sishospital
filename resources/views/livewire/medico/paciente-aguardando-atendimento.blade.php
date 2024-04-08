@@ -55,12 +55,12 @@
                             @foreach ($atendimentoPendentes as $item)
                             <tr wire:click='pegarDadosDaTriagem({{$item->id}})'  style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#observacaoMedica">
                                 <td>{{$item->paciente->nomeCompleto}}</td>
-                                <td>{{$item->idade ?? 'NÃO DEFINIDO'}}</td>
-                                <td>{{$item->dataEntrada}}</td>
-                                <td>{{$item->horaEntrada}}</td>
-                                <td>{{$item->proveniencia}}</td>
-                                <td>{{$item->acompanhante}}</td>
-                                <td>{{$item->telefone}}</td>
+                                <td>{{$item->idade ?? 'NÃO INFORMADO'}}</td>
+                                <td>{{$item->dataEntrada ?? 'NÃO INFORMADO'}}</td>
+                                <td>{{$item->horaEntrada ?? 'NÃO INFORMADO'}}</td>
+                                <td>{{$item->proveniencia ?? 'NÃO INFORMADO'}}</td>
+                                <td>{{$item->acompanhante ?? 'NÃO INFORMADO'}}</td>
+                                <td>{{$item->telefone ?? 'NÃO INFORMADO'}}</td>
                               
                                 @if ($item->escalaDeManchester == 'Emergência (Emediata)')
                                     <td><span style="background:#e5241d;color:#fff" class="badge   font-weight-bold">{{$item->escalaDeManchester }}</span></td>

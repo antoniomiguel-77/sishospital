@@ -4,17 +4,17 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-uppercase" id="exampleModalLabel">Adicionar departamento</h5>
+          <h5 class="modal-title text-uppercase" id="exampleModalLabel">Registrar Pedido de Exame</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click='limparCampos'></button>
         </div>
         <div class="modal-body">
-            <form wire:submit=" {{($pedidoExameId != null) ? 'actualizar':'salvar'}}">
+            <form wire:submit=" {{($pedidoExameId != null) ? 'actualizar':'registrarPedidoDeExame'}}">
                 <div class="row">
                   <div class="col-sm-12">
                       <div class="form-group" wire:ignore>
                           <label for="descricao">Laboratório<span class="text-danger">*</span></label>
                          
-                         <select name="laboratorio" id="laboratorio" class="form-select">
+                         <select wire:model='laboratorio' name="laboratorio" id="laboratorio" class="form-select">
                             <option value="">Seleciomar</option>
                             @if (isset($laboratorios) and $laboratorios->count() > 0)
                                 @foreach ($laboratorios as $item)
@@ -22,25 +22,25 @@
                                 @endforeach
                             @endif
                          </select>
-                          @error('descricao') <span style="font-size: 10px; font-weight:bold"  class="text-danger text-sm mx-1">{{$message}}</span>@enderror  
+                          @error('laboratorio') <span style="font-size: 10px; font-weight:bold"  class="text-danger text-sm mx-1">{{$message}}</span>@enderror  
                         </div>
                       <div class="form-group" wire:ignore>
-                          <label for="descricao">Tipo de Exame<span class="text-danger">*</span></label>
+                          <label for="exames">Tipo de Exame<span class="text-danger">*</span></label>
                          
-                         <select name="exame" id="exame" class="form-select" multiple>
+                         <select name="exames" id="exames" class="form-select" multiple>
                             <option value="">Seleciomar</option>
-                            @if (isset($exames) and $exames->count() > 0)
-                                @foreach ($exames as $item)
-                                    <option value="{{$item->descricao}}">{{$item->descricao}}</option>
+                            @if (isset($todosExames) and $todosExames->count() > 0)
+                                @foreach ($todosExames as $exame)
+                                    <option value="{{$exame->descricao}}">{{$exame->descricao}}</option>
                                 @endforeach
                             @endif
                          </select>
-                          @error('exame') <span style="font-size: 10px; font-weight:bold"  class="text-danger text-sm mx-1">{{$message}}</span>@enderror  
+                          @error('exames') <span style="font-size: 10px; font-weight:bold"  class="text-danger text-sm mx-1">{{$message}}</span>@enderror  
                         </div>
                 
                       <div class="form-group">
-                          <label for="descricao">Tipo de Exame<span class="text-danger">*</span></label>
-                         <textarea class="form-control" name="descricao" placeholder="Informe  a descrição de pedido de exmae" id="descricao" cols="30" rows="10"></textarea>
+                          <label for="descricao">Descrição do Exame Solicitado</label>
+                         <textarea class="form-control" name="descricao" wire:model='descricao' placeholder="Informe  a descrição de pedido de exmae" id="descricao" cols="30" rows="10"></textarea>
                           @error('descricao') <span style="font-size: 10px; font-weight:bold"  class="text-danger text-sm mx-1">{{$message}}</span>@enderror  
                         </div>
                   </div>

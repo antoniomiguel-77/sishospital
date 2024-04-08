@@ -1,6 +1,6 @@
 
   <!-- Modal -->
-  <div  wire:ignore.self data-bs-backdrop='static' class="modal fade" id="lab" tabindex="-1" aria-labelledby="departamento" aria-hidden="true">
+  <div  wire:ignore.self data-bs-backdrop='static' class="modal fade" id="lab" tabindex="-1" aria-labelledby="lab" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -13,7 +13,7 @@
                   <div class="col-sm-12">
                       <div class="form-group">
                           <label for="descricao">Descrição<span class="text-danger">*</span></label>
-                          <input type="text" placeholder="Digite o Departamento" name="descricao" id="descricao" class="form-control" type="text" wire:model="descricao">
+                          <input type="text" placeholder="Descrição do Laboratório" name="descricao" id="descricao" class="form-control" type="text" wire:model="descricao">
                           @error('descricao') <span style="font-size: 10px; font-weight:bold"  class="text-danger text-sm mx-1">{{$message}}</span>@enderror  
                         </div>
                   </div>

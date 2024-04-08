@@ -1,14 +1,14 @@
-@section('titulo','Entradas')
+@section('titulo','Departamento')
 <div>
     <div class="main-panel">
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
             <div class="header-left">
-                PACIENTES AGUARDANDO TRIAGEM
+                LISTA DE PEDIDOS DE EXAMES
             </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">
-             
+           
             </div>
           </div>
   
@@ -37,39 +37,44 @@
                     <div class="table-responsive ">
                     <table class="table table-bordered table-hover text-center">
                         <thead>
-                            <tr>
-                                <th>Data de Entrada</th>
-                                <th>Nome</th>
-                                <th>Idade</th>
-                                <th>Proveniência</th>
-                                <th>Acompanhante</th>
-                                <th>Telefone</th>
-                                <th>Situação</th>
-                            </tr>
+                        <tr>
+                            <th>Data</th>
+                            <th>Laboratório</th>
+                            <th>Exames</th>
+                            <th>Descrição</th>
+                            <th>Ação</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @if (isset($entradas) and $entradas->count() > 0)
-                            @foreach ($entradas as $item)
-                            <tr style="cursor: pointer" data-bs-toggle='modal' data-bs-target='#triagem' wire:click='pegarDadosDoPaciente({{$item->entradaId}})'>
-                                <td>{{$item->data}} {{$item->hora}}</td>
-                                <td>{{$item->nomeCompleto ?? 'NÃO INFORMADO'}}</td>
-                                <td>{{$item->idade ?? 'NÃO INFORMADO'}}</td>
-                                <td>{{$item->proveniencia ?? 'NÃO INFORMADO'}}</td>
-                                <td>{{$item->acompanhante ?? 'NÃO INFORMADO'}}</td>
-                                <td>{{$item->telefone ?? 'NÃO INFORMADO'}}</td>
-                                @if ($item->situacao == 'Aguardando Triagem')
-                                <td><span class="badge badge-warning">{{$item->situacao}}</span></td>
-                                @else
-                                    
-                                @endif
+                            @if (isset($dados) and $dados->count() > 0)
+                                @foreach ($dados as $item)
+                            <tr>
+                                <td>{{$item->created_at->format('d-m-Y H:i')}}</td>
+                                <td>{{$item->laboratorio}}</td>
+                                <td>{{$item->paciente->nomeCompleto}}</td>
+                                <td>
+                                    @if (isset($item->exames) and count($item->exames))
+                                    @foreach ($item->exames as $i)
+                                       <ul>
+                                           <li>{{$i}}</li>
+                                       </ul>
+                                   @endforeach 
+                                        
+                                    @endif
+                                </td>
+                                <td>{{$item->descricao}}</td>
+                                <td>
+                                    <button type="button" wire:click="editar({{$item->id}})" data-bs-toggle="modal" data-bs-target="#departamento" class="btn btn-sm btn-outline-primary"> <i class="fa fa-print"></i></button>
+                                    <button type="button" wire:click="confirmarExclusao({{$item->id}})" class="btn btn-sm btn-outline-danger"> <i class="fa fa-trash"></i></button>
+                                </td>
                             </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="9" class="text-uppercase text-center">Nenhum registro Hoje</td>
+                                <td colspan="5" class="text-uppercase text-center">A consulta não retorno valor</td>
                             </tr>
                         @endif
-                       
+                    
                         </tbody>
                     </table>
                     </div>
@@ -83,10 +88,10 @@
 
         
     </div>
-    @include('livewire.enfermeiro.modal.triagem')
+    {{-- @include('livewire.administrador.modal.departamento') --}}
 </div>
 <script>
     document.addEventListener('fecharModal', () => {
-     $('#triagem').modal('hide');
+     $('#departamento').modal('hide');
     }) 
 </script>

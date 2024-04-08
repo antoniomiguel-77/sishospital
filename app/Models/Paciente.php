@@ -39,4 +39,10 @@ class Paciente extends Model
     {
         return $this->hasMany(\App\Models\Triagem::class, 'paciente_id', 'id');
     }
+
+
+    public function pedidoExame()
+    {
+        return $this->hasMany(PedidoDeExame::class,'paciente_id', 'id');
+    }
 }
