@@ -1,9 +1,10 @@
-@section('titulo','Especialidades')
+@section('titulo','Médicos')
 <div>
     <div class="main-panel">
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
-            <div style="border:1px solid red" class="header-left">
+            <div  class="header-left">
+              <h4 class="text-muted text-uppercase"><i class="fa-solid fa-user-doctor"></i> Médicos</h4>
             </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">

@@ -1,14 +1,17 @@
-@section('titulo','Departamento')
+@section('titulo','Lista de Exames')
 <div>
     <div class="main-panel">
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
             <div class="header-left">
-                LISTA DE PEDIDOS DE EXAMES
+                <h4 class="text-muted text-uppercase"><i class="fa fa-search"></i> Lista de Exames</h4>
             </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">
-           
+                <button  type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
+                    <i class="mdi mdi-printer"></i>
+                    Exportar PDF
+                </button>
             </div>
           </div>
   
@@ -18,9 +21,24 @@
               <div class="card shadow-sm">
                 <div class="card-header">
                   <div class="row">
-                    <div class="form-group col-md-8">
-                        <input style="height: 1px !important;" wire:model.live='pesquisar' type="search" name="pesquisar" id="pesquisar" class="form-control form-control-sm" placeholder="Pesquisar...">
-                    </div>
+                  
+                    <div class="form-group col-md-4">
+                        <select style="height: 1px !important;" class="form-control form-control-sm" name="triagem" id="triagem" wire:model.live='triagem'>
+                            <option value="" selected>--Paciente--</option>
+                         @if (isset($triagens) and $triagens->count() > 0)
+                            @foreach ($triagens as $item)
+                                <option value="{{$item->id}}">{{$item->paciente->nomeCompleto}}</option>
+                            @endforeach
+                          @endif
+                        </select>
+                      </div>
+                    <div class="form-group col-md-4">
+                        <select style="height: 1px !important;" class="form-control form-control-sm" name="estado" id="estado" wire:model.live='estado'>
+                            <option value="" selected>--Estado--</option>
+                            <option value="1">Realizado</option>
+                            <option value="0">Não realizado</option>
+                        </select>
+                      </div>
                     <div class="form-group col-md-4">
                         <select style="height: 1px !important;" class="form-control form-control-sm" name="mostrar" id="mostrar" wire:model.live='mostrar'>
                           <option value="5">5 Registros</option>
@@ -39,6 +57,7 @@
                         <thead>
                         <tr>
                             <th>Data</th>
+                            <th>Paciente</th>
                             <th>Laboratório</th>
                             <th>Exames</th>
                             <th>Descrição</th>
@@ -50,8 +69,9 @@
                                 @foreach ($dados as $item)
                             <tr>
                                 <td>{{$item->created_at->format('d-m-Y H:i')}}</td>
+                                <td>{{$item->created_at->format('d-m-Y H:i')}}</td>
                                 <td>{{$item->laboratorio}}</td>
-                                <td>{{$item->paciente->nomeCompleto}}</td>
+                                {{-- <td>{{$item->paciente->nomeCompleto}}</td> --}}
                                 <td>
                                     @if (isset($item->exames) and count($item->exames))
                                     @foreach ($item->exames as $i)

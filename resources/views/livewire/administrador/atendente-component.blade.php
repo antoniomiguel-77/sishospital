@@ -3,9 +3,9 @@
     <div class="main-panel">
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
-            <div class="header-left">
-                ATENDENTES
-            </div>
+            <div  class="header-left">
+                <h4 class="text-muted text-uppercase"><i class="fa-solid fa-handshake"></i> Atendentes</h4>
+              </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">
                 <button data-bs-toggle="modal" data-bs-target="#atendente" type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">

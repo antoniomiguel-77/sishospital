@@ -4,16 +4,6 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-            @if (session('message'))
-            <div class="col-md-12 d-flex justify-content-center flex-wrap  alertMessage">
-                <div class="mt-2 col-md-5 alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom: -3rem;">
-                    <strong>Erro!</strong> {{session('message')}}.
-                    <button wire:click='session()->forget("message")' type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-            @endif
           <div class="form-sub-main">
             <div class="_main_head_as">
               <a href="#">
@@ -21,13 +11,23 @@
               </a>
             </div>
             <form wire:submit.prevent="entrar">
+              @csrf
             <div class="form-group">
                 <input wire:model='email' id="email" name="email" class="form-control _ge_de_ol @error('email') is-invalid @enderror" type="text" placeholder="E-mail"  >
+                @error('email')
+                <div class="" style="text-align: start;margin-top:-2rem">
+                  <span  class="text-danger">{{$message}}</span>
+                </div>
+                @enderror
             </div>
 
             <div class="form-group">                                              
-              <input wire:model='password' id="password" type="password" class="form-control" name="password" placeholder="********" >
-              <i style="cursor: pointer" id="#password" toggle="#password" class="fa fa-fw fa-eye toggle-password field-icon @error('password') is-invalid @enderror"></i>
+              <input wire:model='password' id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="********" >
+              @error('password')
+              <div class="" style="text-align: start;margin-top:-2rem">
+                <span  class="text-danger">{{$message}}</span>
+              </div>
+              @enderror
             </div>
 
             <div class="form-group">
@@ -49,7 +49,4 @@
     </div>
   </section>
 
-  @push('boxMessage')
-    
-  @endpush
  

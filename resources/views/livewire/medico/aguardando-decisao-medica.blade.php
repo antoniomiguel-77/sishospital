@@ -4,7 +4,8 @@
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
             <div class="header-left">
-                PACIENTES AGUARDANDO DECISÃO MEDICA
+                <h4 class="text-muted text-uppercase"><i class="fa-solid fa-bed-pulse"></i> PACIENTES AGUARDANDO DECISÃO MEDICA</h4>
+
             </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">

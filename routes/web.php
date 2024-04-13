@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Route;
 #Medicos
     Route::get('/painel/medico/paciente-aguardando-atendimento', PacienteAguardandoAtendimento::class)->name('sis.medico.paciente-atendimento')->middleware(['auth']);
     Route::get('/painel/medico/aguardando-decisao-medica', AguardandoDecisaoMedica::class)->name('sis.medico.aguardando.decisao.medica')->middleware(['auth']);
-    Route::get('/painel/medico/exames', ListarExameComponent::class)->name('sis.medico.listar.exames')->middleware(['auth']);
+    Route::get('/painel/medico/listar/exames', ListarExameComponent::class)->name('sis.medico.listar.exames')->middleware(['auth']);
 #Medicos
 
 #enfermeiros

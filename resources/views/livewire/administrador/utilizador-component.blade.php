@@ -3,7 +3,8 @@
     <div class="main-panel">
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
-            <div style="border:1px solid red" class="header-left">
+            <div  class="header-left">
+              <h4 class="text-muted text-uppercase"><i class="fa fa-users"></i> Utilizadores</h4>
             </div>
  
           </div>
@@ -35,7 +36,7 @@
                     <table class="table table-bordered table-hover text-center">
                         <thead>
                         <tr>
-                          <th>Data</th>
+                          <th>Data Cadastro</th>
                             <th>Nome</th>
                             <th>Email</th>
                             <th>Acesso</th>

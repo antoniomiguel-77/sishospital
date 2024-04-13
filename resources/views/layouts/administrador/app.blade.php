@@ -118,8 +118,9 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.admin.atendentes')}}">
-                      <i class="fa fa-clipboard-user"></i>
-                        <span class="">Atendentes</span>
+
+                      
+                        <span class=""><i class="fa fa-clipboard-user"></i>  Atendentes</span>
                     </a>
                   </li>
                   <li class="nav-item">

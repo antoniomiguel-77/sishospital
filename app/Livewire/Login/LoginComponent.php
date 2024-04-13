@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+
 class LoginComponent extends Component
 {
     use LivewireAlert;
@@ -29,8 +30,10 @@ class LoginComponent extends Component
 
             if(!$user){
 
-                Session()->put('message','Não existe uma conta com este e-mail!!!');
+              
+                $this->alert('error', 'Não existe uma conta com este e-mail');
             
+
                 return;
             }
 
@@ -41,14 +44,17 @@ class LoginComponent extends Component
                    
                     
                     if ($user->nivel == 'Administrador' ) {
+
                         $user->online = 'On';
                         $user->save();
                         return redirect()->route('sis.admin.home');
                     }elseif($user->nivel == 'Médico' ){
+
                         $user->online = 'On';
                         $user->save();
                         return redirect()->route('sis.medico.paciente-atendimento');
                     }elseif($user->nivel == 'Enfermeiro' ){
+
                         $user->online = 'On';
                         $user->save();
                         return redirect()->route('sis.enferm.triagem');
@@ -58,16 +64,19 @@ class LoginComponent extends Component
                         return redirect()->route('sis.atend.banco-de-urgencia');
                     }
             }else{
-                Session()->put('message','Credências Inválidas!!!');
+
+                $this->alert('error', 'Credências Invalidas!!');
+
           
             }
 
-            Session()->forget('message');
+ 
         }
 
         } catch (\Throwable $th) {
             
-            session()->put('message','Falha ao realizar operação'.$th->getMessage());
+            $this->alert('error', 'Falha ao realizar operação!!!');
+
            
         }
     }

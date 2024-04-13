@@ -16,6 +16,7 @@ class PedidoDeExame extends Model
         'laboratorio',
         'exames',
         'descricao',
+        'estado',
     ];
     protected $guarded = ['id'];
 

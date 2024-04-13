@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Medico::class);
             $table->string('laboratorio');
             $table->json('exames');
+            $table->boolean('estado')->default(0)->nullable();
             $table->longText('descricao');
             $table->softDeletes();
             $table->timestamps();

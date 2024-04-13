@@ -4,7 +4,7 @@
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
             <div class="header-left">
-                PACIENTES AGUARDANDO ATENDIMENTO
+                <h4 class="text-uppercase text-muted"><i class="fa-solid fa-laptop-medical"></i> Paciente Aguardando atendimento</h4>
             </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">
