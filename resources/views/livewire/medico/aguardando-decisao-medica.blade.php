@@ -106,12 +106,12 @@
           </div>
        
         </div>
+        @include('livewire.medico.modal.registroDeAlta') 
             @include('livewire.medico.modal.detalhesObservacaoMedica') 
             @include('livewire.medico.modal.diarioClinico') 
             @include('livewire.medico.modal.internamento') 
             @include('livewire.medico.modal.pedidoDeExame') 
             @include('livewire.medico.modal.prescricaoMedica') 
-            @include('livewire.medico.modal.registroDeAlta') 
             @include('livewire.medico.modal.registroDeFalecido') 
             @include('livewire.medico.modal.registroDeTransferencia') 
     </div>
@@ -119,8 +119,7 @@
 </div>
 <script>
     document.addEventListener('fecharModal', () => {
-     $('#atendimento').modal('hide');
-     $('#pedidoExame').modal('hide');
+     $('.btn-close').trigger('click');
     }) 
 </script>
 

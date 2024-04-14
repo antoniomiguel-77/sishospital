@@ -40,7 +40,7 @@
                     <li class="nav-item nav-profile dropdown">
                       <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="nav-profile-img">
-                          <img src="../assets/images/faces/face1.jpg" alt="image" />
+                          <img src="{{asset('assets/images/faces/face1.jpg')}}" alt="image" />
                         </div>
                         <div class="nav-profile-text">
                           <p class="text-black font-weight-semibold m-0">{{auth()->user()->name}}</p>
@@ -66,15 +66,12 @@
                 <ul class="nav page-navigation">
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.atend.banco-de-urgencia')}}">
-             
-                      <i class="fa-solid fa-gauge menu-icon"></i>
-                      <span class="menu-title">Banco de Urgência</span>
+                      <span class="menu-title"><i class="fa fa-arrow-right"></i> Banco de Urgência</span>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.atend.paciente')}}">
-                      <i class="fa-solid fa-gauge menu-icon"></i>
-                      <span class="menu-title">Pacientes</span>
+                      <span class="menu-title"> <i class="fa-solid fa-bed-pulse"></i> Pacientes</span>
                     </a>
                   </li>
                 </ul>

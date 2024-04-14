@@ -12,7 +12,6 @@ use App\Livewire\Administrador\{
     LaboratorioComponent
 };
 use App\Livewire\Atendente\{
-    AtendenteComponent,
     EntradaBancoUrgenciaComponent,
     PacienteComponent,
 };
@@ -22,13 +21,12 @@ use App\Livewire\Enfermeiro\{
 use App\Livewire\Login\LoginComponent;
 use App\Livewire\Medico\{
     AguardandoDecisaoMedica,
-    ListarExameComponent,
-    ObservacaoMedica,
+    ListarDiarioClinico,
+    ListaRegistroDeAlta,
+    ListarExame,
     PacienteAguardandoAtendimento,
 };
-use App\Models\Atendente;
-use App\Models\Triagem;
-use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Support\Facades\Route;
 
 #Administrador
@@ -48,7 +46,9 @@ use Illuminate\Support\Facades\Route;
 #Medicos
     Route::get('/painel/medico/paciente-aguardando-atendimento', PacienteAguardandoAtendimento::class)->name('sis.medico.paciente-atendimento')->middleware(['auth']);
     Route::get('/painel/medico/aguardando-decisao-medica', AguardandoDecisaoMedica::class)->name('sis.medico.aguardando.decisao.medica')->middleware(['auth']);
-    Route::get('/painel/medico/listar/exames', ListarExameComponent::class)->name('sis.medico.listar.exames')->middleware(['auth']);
+    Route::get('/painel/medico/listar/exames', ListarExame::class)->name('sis.medico.listar.exames')->middleware(['auth']);
+    Route::get('/painel/medico/listar/diarios-clinicos', ListarDiarioClinico::class)->name('sis.medico.listar.diario.clinico')->middleware(['auth']);
+    Route::get('/painel/medico/listar/registro-de-alta', ListaRegistroDeAlta::class)->name('sis.medico.listar.registro.alta')->middleware(['auth']);
 #Medicos
 
 #enfermeiros
@@ -63,4 +63,11 @@ use Illuminate\Support\Facades\Route;
 #Autenticacao
 Route::get('/',LoginComponent::class)->name('login');
 Route::get('/test',function(){dd(\Hash::make('123456789'));});
+Route::get('/pdf',function(){
+
+    $data = ['data','data2'];
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('livewire.export.pedido-exame', $data);
+   
+    return $pdf->stream('invoice.pdf');
+});
 #Autenticacao

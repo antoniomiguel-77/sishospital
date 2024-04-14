@@ -32,7 +32,7 @@
                      <i class="fas fa-hospital fa-2x"></i>
                     <span class="font-12 d-block font-weight-bold text-uppercase">Sistema Hospitalar</span> 
                   </a>
-                  <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../assets/images/logo-mini.svg" alt="logo" /></a>
+                  <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('assets/images/faces/face1.jpg')}}" alt="logo" /></a>
                 </div>
                 <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                
@@ -40,7 +40,7 @@
                     <li class="nav-item nav-profile dropdown">
                       <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="nav-profile-img">
-                          <img src="../assets/images/faces/face1.jpg" alt="image" />
+                          <img src="{{asset('/assets/images/faces/face1.jpg')}}" alt="image" />
                         </div>
                         <div class="nav-profile-text">
                           <p class="text-black font-weight-semibold m-0">{{auth()->user()->name}}</p>
@@ -67,8 +67,8 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{{route('sis.enferm.triagem')}}">
              
-                      <i class="fa-solid fa-gauge menu-icon"></i>
-                      <span class="menu-title">Triagens</span>
+                     
+                      <span class="menu-title"><i class="fa-solid fa-notes-medical"></i> Triagens</span>
                     </a>
                   </li>
                 </ul>

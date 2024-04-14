@@ -1,7 +1,7 @@
 
   <!-- Modal -->
   <div  wire:ignore.self data-bs-backdrop='static' class="modal fade" id="menu" tabindex="-1" aria-labelledby="triagem" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-uppercase" id="exampleModalLabel"><i class="fa fa-bars"></i> MENÚ</h5>
@@ -13,7 +13,7 @@
               <i class="fa fa-edit fa-1x"></i>
                 Prescição Médica
             </button>
-            <button class="btn-hover  btn btn-md btn-outline-primary text-uppercase mb-2 p-3">
+            <button data-bs-toggle="modal" data-bs-target="#diario-clinico" class="btn-hover  btn btn-md btn-outline-primary text-uppercase mb-2 p-3">
               <i class="fa fa-book fa-1x"></i>
               Diário Clinico do Paciente
             </button>
@@ -33,7 +33,7 @@
               <i class="fa fa-edit"></i>
               Registrar Internamento
             </button>
-            <button class="btn-hover  btn btn-md btn-outline-primary text-uppercase mb-2 p-3">
+            <button data-bs-toggle="modal" data-bs-target="#registro-de-alta" class="btn-hover  btn btn-md btn-outline-primary text-uppercase mb-2 p-3">
               <i class="fa fa-edit"></i>
               Registrar Alta
             </button>

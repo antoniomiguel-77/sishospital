@@ -5,24 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PedidoDeExame extends Model
+class RegistroDeAlta extends Model
 {
     use HasFactory;
-    protected $table = 'pedido_de_exames';
+    protected $table = 'registro_de_altas';
     protected $primaryKey = 'id';
     protected $fillable = [
         'triagem_id',
         'medico_id',
-        'laboratorio',
-        'exames',
-        'descricao',
+        'condicaoDeSaude',
+        'recomendacao',
+        'orientacao',
+        'diagnosticoDeEntrada',
+        'diagnosticoDeSaida',
         'estado',
     ];
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'exames'=>'array'
-    ];
+
 
  
     public function triagens()
@@ -30,4 +30,8 @@ class PedidoDeExame extends Model
         return $this->belongsTo(\App\Models\Triagem::class, 'triagem_id', 'id');
     }
 
+    public function medico()
+    {
+        return $this->belongsTo(Medico::class, 'medico_id', 'id');
+    }
 }

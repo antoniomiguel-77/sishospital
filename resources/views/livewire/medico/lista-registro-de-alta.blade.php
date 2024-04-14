@@ -1,10 +1,10 @@
-@section('titulo','Lista de Exames')
+@section('titulo','Registro de Altas ')
 <div>
     <div class="main-panel">
         <div class="content-wrapper pb-0">
           <div class="page-header flex-wrap">
             <div class="header-left">
-                <h4 class="text-muted text-uppercase"><i class="fa fa-search"></i> Lista de Exames</h4>
+                <h4 class="text-muted text-uppercase"><i class="fa fa-edit"></i> Diários Clínicos</h4>
             </div>
 
             <div  class="header-right d-flex flex-wrap mt-md-2 mt-lg-0">
@@ -23,7 +23,7 @@
                   <div class="row">
                   
                     <div class="form-group col-md-4">
-                        <select style="height: 1px !important;" class="form-control form-control-sm" name="triagem" id="triagem" wire:model.live='triagem'>
+                        <select style="height: 1px !important;" class="form-select form-control-sm" name="triagem" id="triagem" wire:model.live='triagem'>
                             <option value="" selected>--Paciente--</option>
                          @if (isset($triagens) and $triagens->count() > 0)
                             @foreach ($triagens as $item)
@@ -32,21 +32,22 @@
                           @endif
                         </select>
                       </div>
-                    <div class="form-group col-md-4">
-                        <select style="height: 1px !important;" class="form-control form-control-sm" name="estado" id="estado" wire:model.live='estado'>
-                            <option value="" selected>--Estado--</option>
-                            <option value="1">Realizado</option>
-                            <option value="0">Não realizado</option>
-                        </select>
-                      </div>
-                    <div class="form-group col-md-4">
-                        <select style="height: 1px !important;" class="form-control form-control-sm" name="mostrar" id="mostrar" wire:model.live='mostrar'>
+                  
+                    <div class="form-group col-md-3">
+                       <input type="date" name="startdate" wire:model.live='startdate' id="startdate" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group col-md-3">
+                       <input type="date" name="enddate" wire:model.live='enddate' id="enddate" class="form-control form-control-sm">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <select style="height: 1px !important;" class="form-select form-control-sm" name="mostrar" id="mostrar" wire:model.live='mostrar'>
                           <option value="5">5 Registros</option>
                           <option value="10">10 Registros</option>
                           <option value="25">25 Registros</option>
                           <option value="50">50 Registros</option>
                           <option value="100">100 Registros</option>
                           <option value="250">250 Registros</option>
+                          <option value="500">500 Registros</option>
                         </select>
                       </div>
                   </div>
@@ -57,10 +58,14 @@
                         <thead>
                         <tr>
                             <th>Data</th>
+                            <th>Hora</th>
                             <th>Paciente</th>
-                            <th>Laboratório</th>
-                            <th>Exames</th>
-                            <th>Descrição</th>
+                            <th>Estado de Saúde</th>
+                            <th>Condição de Saúde</th>
+                            <th>Recomendações</th>
+                            <th>Orientação</th>
+                            <th>Diagnostico de Entrada</th>
+                            <th>Diagnostico de Saída</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
@@ -69,29 +74,23 @@
                                 @foreach ($dados as $item)
                             <tr>
                                 <td>{{$item->created_at->format('d-m-Y H:i')}}</td>
-                                <td>{{$item->created_at->format('d-m-Y H:i')}}</td>
-                                <td>{{$item->laboratorio}}</td>
-                                {{-- <td>{{$item->paciente->nomeCompleto}}</td> --}}
+                                <td>{{$item->created_at->format('H:i')}}</td>
+                                <td>{{$item->triagens->paciente->nomeCompleto}}</td>
+                                <td>{{$item->estado}}<br>
+                                <td>{{$item->condicaoDeSaude}}<br>
+                                <td>{{$item->recomendacao}}<br>
+                                <td>{{$item->orientacao}}<br>
+                                <td>{{$item->diagnosticoDeEntrada}}<br>
+                                <td>{{$item->diagnosticoDeSaida}}<br>
                                 <td>
-                                    @if (isset($item->exames) and count($item->exames))
-                                    @foreach ($item->exames as $i)
-                                       <ul>
-                                           <li>{{$i}}</li>
-                                       </ul>
-                                   @endforeach 
-                                        
-                                    @endif
-                                </td>
-                                <td>{{$item->descricao}}</td>
-                                <td>
-                                    <button type="button" wire:click="editar({{$item->id}})" data-bs-toggle="modal" data-bs-target="#departamento" class="btn btn-sm btn-outline-primary"> <i class="fa fa-print"></i></button>
-                                    <button type="button" wire:click="confirmarExclusao({{$item->id}})" class="btn btn-sm btn-outline-danger"> <i class="fa fa-trash"></i></button>
+                                    <button type="button" wire:click="editar({{$item->id}})" data-bs-toggle="modal" data-bs-target="#registro-de-alta" class="btn btn-sm btn-outline-primary"> <i class="fa fa-edit"></i></button>
+                                    {{-- <button type="button" wire:click="confirmarExclusao({{$item->id}})" class="btn btn-sm btn-outline-danger"> <i class="fa fa-trash"></i></button> --}}
                                 </td>
                             </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="5" class="text-uppercase text-center">A consulta não retorno valor</td>
+                                <td colspan="11" class="text-uppercase text-center">A consulta não retorno valor</td>
                             </tr>
                         @endif
                     
@@ -108,10 +107,10 @@
 
         
     </div>
-    {{-- @include('livewire.administrador.modal.departamento') --}}
+     @include('livewire.medico.modal.registroDeAlta') 
 </div>
 <script>
     document.addEventListener('fecharModal', () => {
-     $('#departamento').modal('hide');
+     $('.btn-close').trigger('click');
     }) 
 </script>

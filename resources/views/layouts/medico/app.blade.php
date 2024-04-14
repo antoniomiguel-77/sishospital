@@ -85,15 +85,21 @@
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                     
-                      <i class="fa fa-eye menu-icon"></i>
+                      <i class="fa fa-list menu-icon"></i>
                     
-                      <span class="menu-title">Vêr</span>
+                      <span class="menu-title">Lista de</span>
                       <i class="menu-arrow"></i>
                     </a>
                     <div class="submenu">
                       <ul class="submenu-item">
                         <li class="nav-item">
                           <a class="nav-link" href="{{route('sis.medico.listar.exames')}}">Pedidos de Exames</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{route('sis.medico.listar.diario.clinico')}}">Diários Clínicos</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{route('sis.medico.listar.registro.alta')}}">Registro de  Alta</a>
                         </li>
                       </ul>
                     </div>

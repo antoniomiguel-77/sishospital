@@ -5,12 +5,19 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-uppercase" id="exampleModalLabel">Registrar Pedido de Exame</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click='limparCampos'></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form wire:submit=" {{($pedidoExameId != null) ? 'actualizar':'registrarPedidoDeExame'}}">
                 <div class="row">
                   <div class="col-sm-12">
+                    <div class="form-group col-md-12">
+                      <label for="paciente">Paciente</label>
+                      <input type="text" name="paciente" id="paciente" wire:model='paciente' readonly class="form-control">
+                      @error('paciente')
+                          <span class="text-danger">{{$message}}</span>
+                      @enderror
+                  </div>
                       <div class="form-group" wire:ignore>
                           <label for="descricao">Laboratório<span class="text-danger">*</span></label>
                          

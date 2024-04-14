@@ -3,7 +3,7 @@
 namespace App\Livewire\Medico;
 
 use App\Models\Medico;
-use App\Models\{Exame, Laboratorio, Triagem, ObservacaoMedica as ModelObservacaoMedica, PedidoDeExame};
+use App\Models\{DiarioClinico, Exame, Laboratorio, Triagem, ObservacaoMedica as ModelObservacaoMedica, PedidoDeExame, RegistroDeAlta};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -11,14 +11,26 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class AguardandoDecisaoMedica extends Component
 {
     use LivewireAlert;
+    
+
    public $pesquisar,$mostrar,$pedidoExameId,
    $queixasPrincipais,$assistenciaPreHospitalar,
    $diagnosticoDeEntrada,$dataObservacao,
-   $horaObservacao,$observacaoSumaria,$triagem_id;
+   $horaObservacao,$observacaoSumaria,$triagem_id,$paciente;
+
+    //Propiedades para cadastro de diario Clinico do paciente
+   public $descricaoDiarioClinico;
+
+    //Propiedades para cadastro de alta do paciente
+   public $estadoDeSaude,$condicaoDeSaudo,$recomendacao,$orientacao,$diagnosticoDeSaida;
+
+
   
 
    public $laboratorio,$exames  = [],$descricao;
-   protected $listeners = ['fecharModal'=>'fecharModal'];
+   //Eventos
+    protected $listeners = ['fecharModal'=>'fecharModal','fecharTodasModals'=>'fecharTodasModals'];
+
     public function render()
     {
         return view('livewire.medico.aguardando-decisao-medica',[
@@ -88,7 +100,7 @@ class AguardandoDecisaoMedica extends Component
            
 
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+       
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
                 'toast' => false,
@@ -143,6 +155,7 @@ class AguardandoDecisaoMedica extends Component
     {
         try {
            $this->triagem_id = $id;
+          $this->paciente = Triagem::find($id)->paciente->nomeCompleto ?? 'N/D';
         } catch (\Throwable $th) {
             $this->alert('error', 'FALHA', [
                 'position' => 'center',
@@ -198,5 +211,95 @@ class AguardandoDecisaoMedica extends Component
              ]);
          }
     }
+
+    // METODO PARA REGISTRAR PACIENTE AGUARDANDO DECISÃO MÉDICA
+    public function registrarDiarioClinico()
+    {
+      
+        $this->validate(['descricaoDiarioClinico'=>'required'],['descricaoDiarioClinico.required'=>'Obrigatório']);
+        try {
+          
+
+            DiarioClinico::create([
+                'descricao'=>$this->descricaoDiarioClinico,
+                'medico_id'=>auth()->user()->medico->id,
+                'triagem_id'=>$this->triagem_id
+            ]);
+            
+            $this->descricaoDiarioClinico = '';
+            $this->triagem_id  = '';
+            $this->paciente = '';
+            $this->dispatch('fecharModal');
+            $this->alert('success', 'Operação realizada com sucesso!!');
+
+           
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            $this->alert('error', 'FALHA', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text' => 'Falha ao realizar operação',
+            ]);
+        }
+    }
+
+    // Metodo para registrar alto do paciente
+    public function registrarAltaDoPaciente()
+    {
+        $this->validate([
+            'estadoDeSaude'=>'required',
+            'condicaoDeSaudo'=>'required',
+            'recomendacao'=>'required',
+            'orientacao'=>'required',
+            'diagnosticoDeEntrada'=>'required',
+            'diagnosticoDeSaida'=>'required',
+        ],[
+            'estadoDeSaude.required'=>'Obrigatório',
+            'condicaoDeSaudo.required'=>'Obrigatório',
+            'recomendacao.required'=>'Obrigatório',
+            'orientacao.required'=>'Obrigatório',
+            'diagnosticoDeEntrada.required'=>'Obrigatório',
+            'diagnosticoDeSaida.required'=>'Obrigatório', 
+        ]);
+        try {
+
+            RegistroDeAlta::create([
+                'triagem_id'=>$this->triagem_id,
+                'medico_id'=>auth()->user()->medico->id,
+                'condicaoDeSaude'=>$this->condicaoDeSaudo,
+                'recomendacao'=>$this->recomendacao,
+                'orientacao'=>$this->orientacao,
+                'diagnosticoDeEntrada'=>$this->diagnosticoDeEntrada,
+                'diagnosticoDeSaida'=>$this->diagnosticoDeSaida,
+                'estado'=>$this->estadoDeSaude,
+            ]);
+
+
+                $this->triagem_id = '';
+                $this->condicaoDeSaudo = '';
+                $this->recomendacao = '';
+                $this->orientacao = '';
+                $this->diagnosticoDeEntrada = '';
+                $this->diagnosticoDeSaida = '';
+                $this->estadoDeSaude = '';
+                $this->alert('success', 'Operação realizada com sucesso!!');
+                $this->dispatch('fecharModal');
+            
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            $this->alert('error', 'FALHA', [
+                'position' => 'center',
+                'toast' => false,
+                'timer' => 2000,
+                'text' => 'Falha ao realizar operação',
+            ]);
+        }
+    }
+
+
+
+  
+   
  
 }
